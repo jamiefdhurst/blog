@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <article class="view">
+        <h2>{{ article.get_title() }}</h2>
+        <h3>
+            Posted on {{ article.get_date().strftime('%A %B %-d, %Y') }}
+        </h3>
+        <div class="content">
+            {{ article.get_content_only()|safe }}
+        </div>
+    </article>
+{% endblock %}

@@ -1,0 +1,29 @@
+{
+  "name": "blog",
+  "description": "Blog",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamiefdhurst/blog.git"
+  },
+  "keywords": [
+    "Blog"
+  ],
+  "author": "jamiefdhurst",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/jamiefdhurst/blog/issues"
+  },
+  "homepage": "https://github.com/jamiefdhurst/blog#readme",
+  "devDependencies": {
+    "bourbon": "^7.0.0",
+    "gulp": "^4.0.2",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^5.0.0",
+    "normalize.css": "^8.0.1",
+    "sass": "^1.44.0"
+  }
+}

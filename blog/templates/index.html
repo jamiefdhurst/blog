@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% for article in articles %}
+    <article>
+      <h2><a href="/{{ article.get_name() }}">{{ article.get_title() }}</a></h2>
+        <h3>
+          Posted on {{ article.get_date().strftime('%A %B %-d, %Y') }}
+        </h3>
+        <div class="summary">
+          {% if article.get_image() %}{{ article.get_image()|safe }}{% endif %}
+          {% if article.get_summary() %}
+            <p>{{ article.get_summary() }}</p><p><a href="/{{ article.get_name() }}">Read More</a></p>
+          {% else %}
+            <p><a href="/{{ article.get_name() }}">Read</a></p>
+          {% endif %}
+        </div>
+    </article>
+  {% endfor %}
+  <nav class="pagination">
+    <ol>
+      {% for page in pages %}
+        <li class="{% if current_page == loop.index %}current{% endif %}">
+          <a href="/?page={{ loop.index }}">{{ loop.index }}</a>
+        </li>
+      {% endfor %}
+    </ol>
+  </nav>
+{% endblock %}

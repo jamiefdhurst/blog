@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Jamie's Blog {% block title %}{% endblock %}</title>
+    <meta name="viewport" content="device-width" />
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/default.min.css') }}" />
+</head>
+<body>
+    <header role="banner">
+        <h1><a href="/">Jamie Hurst - Software and System Engineer</a></h1>
+    </header>
+    <main role="main">
+        <div id="content">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+    <footer role="contentinfo">&copy; Copyright Jamie Hurst 2021<br />System {{ g.version }}</footer>
+</body>
+</html>
