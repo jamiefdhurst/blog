@@ -27,7 +27,7 @@ pipeline {
 
         stage('Package') {
             when {
-                branch 'master'
+                branch 'main'
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github-personal-access-token', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD')]) {
