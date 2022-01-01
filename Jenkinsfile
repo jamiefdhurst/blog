@@ -5,12 +5,6 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build') {
             steps {
                 sh "docker build -t $CONTAINER_NAME -f Dockerfile.test ."
@@ -21,8 +15,8 @@ pipeline {
             steps {
                 sh """
                 docker run -d --name $CONTAINER_NAME --entrypoint='' -e GITHUB_USERNAME='jamiefdhurst' -e GITHUB_TOKEN='example' $CONTAINER_NAME tail -f /dev/null
-                docker exec -it $CONTAINER_NAME -- coverage -m pytest --verbose --junit-xml tests.xml
-                docker exec -it $CONTAINER_NAME -- coverage xml -o coverage.xml
+                docker exec $CONTAINER_NAME coverage run -m pytest --verbose --junit-xml tests.xml
+                docker exec $CONTAINER_NAME coverage xml -o coverage.xml
                 docker cp $CONTAINER_NAME:/app/tests.xml blog-tests.xml
                 docker cp $CONTAINER_NAME:/app/coverage.xml blog-coverage.xml
                 """
