@@ -5,6 +5,9 @@ from blog import create_app
 @pytest.fixture
 def app():
     app = create_app({
+        'ARTICLES_DIR': 'tests/articles/',
+        'GITHUB_USERNAME': 'jamiefdhurst',
+        'GITHUB_TOKEN': '',
         'TESTING': True,
     })
 
