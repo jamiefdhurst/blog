@@ -31,10 +31,10 @@ pipeline {
             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'github-personal-access-token', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD')]) {
-                    sh "docker login -u $GITHUB_USERNAME -p $GITHUB_PASSWORD docker.pkg.github.com"
+                    sh "docker login -u $GITHUB_USERNAME -p $GITHUB_PASSWORD ghcr.io"
                     sh """
-                    docker tag $CONTAINER_NAME docker.pkg.github.com/jamiefdhurst/blog/blog:latest
-                    docker push docker.pkg.github.com/jamiefdhurst/blog/blog:latest
+                    docker tag $CONTAINER_NAME ghcr.io/jamiefdhurst/blog:latest
+                    docker push ghcr.io/jamiefdhurst/blog:latest
                     """
                 }
             }
