@@ -12,7 +12,7 @@ node {
 
     stage('Test') {
         sh """
-        docker run --name $CONTAINER_NAME --entrypoint='' -e GITHUB_USERNAME='jamiefdhurst' -e GITHUB_TOKEN='example' $CONTAINER_NAME -- tail -f /dev/null
+        docker run --name $CONTAINER_NAME --entrypoint='' -e GITHUB_USERNAME='jamiefdhurst' -e GITHUB_TOKEN='example' $CONTAINER_NAME tail -f /dev/null
         docker exec -it $CONTAINER_NAME -- coverage -m pytest --verbose --junit-xml tests.xml
         docker exec -it $CONTAINER_NAME -- coverage xml -o coverage.xml
         docker cp $CONTAINER_NAME:/app/tests.xml blog-tests.xml
