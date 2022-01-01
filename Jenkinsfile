@@ -24,6 +24,21 @@ pipeline {
                 step([$class: 'CoberturaPublisher', coberturaReportFile: 'blog-coverage.xml'])
             }
         }
+
+        stage('Package') {
+            when {
+                branch 'master'
+            }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'github-personal-access-token', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD')]) {
+                    sh "docker login -u $GITHUB_USERNAME -p $GITHUB_PASSWORD docker.pkg.github.com"
+                    sh """
+                    docker tag $CONTAINER_NAME docker.pkg.github.com/jamiefdhurst/blog/blog:latest
+                    docker push docker.pkg.github.com/jamiefdhurst/blog/blog:latest
+                    """
+                }
+            }
+        }
     }
 
     post {
