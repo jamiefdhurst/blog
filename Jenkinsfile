@@ -17,10 +17,17 @@ node {
         docker exec -it $CONTAINER_NAME -- coverage xml -o coverage.xml
         docker cp $CONTAINER_NAME:/app/tests.xml blog-tests.xml
         docker cp $CONTAINER_NAME:/app/coverage.xml blog-coverage.xml
-        docker stop $CONTAINER_NAME
-        docker rm $CONTAINER_NAME
         """
         junit 'blog-tests.xml'
         step([$class: 'CoberturaPublisher', coberturaReportFile: 'blog-coverage.xml'])
+    }
+
+    post {
+        always {
+            sh """
+            docker stop $CONTAINER_NAME
+            docker rm $CONTAINER_NAME
+            """
+        }
     }
 }
