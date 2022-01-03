@@ -4,4 +4,4 @@ WORKDIR /app
 COPY . .
 RUN python setup.py develop
 EXPOSE 5000
-ENTRYPOINT ["flask", "run"]
+ENTRYPOINT ["flask", "run", "-h", "0.0.0.0"]
