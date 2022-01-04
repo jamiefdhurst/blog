@@ -25,18 +25,24 @@ pipeline {
             }
         }
 
-        stage('Package') {
+        stage('Package and Release') {
             when {
                 branch 'main'
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'github-personal-access-token', usernameVariable: 'GITHUB_USERNAME', passwordVariable: 'GITHUB_PASSWORD')]) {
-                    sh "docker login -u $GITHUB_USERNAME -p $GITHUB_PASSWORD ghcr.io"
-                    sh """
-                    docker tag $CONTAINER_NAME ghcr.io/jamiefdhurst/blog:latest
-                    docker push ghcr.io/jamiefdhurst/blog:latest
-                    """
-                }
+                build job: '/github/blog-folder/release', wait: true
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                branch 'main'
+            }
+            steps {
+                library identifier: 'infrastructure@master'
+                build job: '/github/blog-folder/deploy', wait: true, parameters: [
+                    string(name: 'targetVersion', value: getVersion().full)
+                ]
             }
         }
     }
