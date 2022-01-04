@@ -41,7 +41,7 @@ pipeline {
             steps {
                 library identifier: 'infrastructure@master'
                 build job: '/github/blog-folder/deploy', wait: true, parameters: [
-                    string(name: 'targetVersion', value: getVersion().full)
+                    string(name: 'targetVersion', value: getVersion(repo: 'jamiefdhurst/blog').full)
                 ]
             }
         }
