@@ -7,14 +7,14 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "docker build -t $CONTAINER_NAME -f Dockerfile.test ."
+                sh "docker build -t $CONTAINER_NAME-test -f Dockerfile.test ."
             }
         }
 
         stage('Test') {
             steps {
                 sh """
-                docker run -d --name $CONTAINER_NAME --entrypoint='' -e GITHUB_USERNAME='jamiefdhurst' -e GITHUB_TOKEN='example' $CONTAINER_NAME tail -f /dev/null
+                docker run -d --name $CONTAINER_NAME --entrypoint='' -e GITHUB_USERNAME='jamiefdhurst' -e GITHUB_TOKEN='example' $CONTAINER_NAME-test tail -f /dev/null
                 docker exec $CONTAINER_NAME coverage run -m pytest --verbose --junit-xml tests.xml
                 docker exec $CONTAINER_NAME coverage xml -o coverage.xml
                 docker cp $CONTAINER_NAME:/app/tests.xml blog-tests.xml
@@ -30,6 +30,7 @@ pipeline {
                 branch 'main'
             }
             steps {
+                sh "docker build -t $CONTAINER_NAME -f Dockerfile ."
                 build job: '/github/blog-folder/release', wait: true
             }
         }
