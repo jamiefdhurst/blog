@@ -18,7 +18,6 @@ class Article:
                 self.contents = markdown(file.read())
         except FileNotFoundError as fnfe:
             raise ArticleNotFoundException(f"Could not find article file {filename}") from fnfe
-        print(self.contents)
 
     def get_contents(self):
         return self.contents
@@ -76,11 +75,13 @@ def get_article(directory, file):
 
 def get_articles(directory):
     files = [f for f in listdir(directory) if isfile(join(directory, f))]
+    files.sort()
     return __parse_articles(directory, files)
 
 
 def get_paginated_articles(directory, page=1, per_page=10):
     files = [f for f in listdir(directory) if isfile(join(directory, f))]
+    files.sort()
     files.reverse()
     current_app.logger.debug(f"Returned {len(files)} files...")
     first_entry = (page - 1) * per_page
