@@ -129,6 +129,25 @@ article {
         a:hover {
             box-shadow: none;
         }
+
+        img {
+            max-width: 100%;
+        }
+
+        code {
+            background-color: $formColour;
+            color: #fff;
+            font-size: .75em;
+            padding: .125em;
+        }
+
+        pre > code {
+            display: block;
+            line-height: 1.25;
+            max-width: 100%;
+            overflow: auto;
+            padding: .5em;
+        }
     }
 
     .float-right {
