@@ -1,6 +1,6 @@
 # Using Terraform and Ansible
 
-![Mr. Motivator](/static/mr-motivator.jpg)
+![Terraform and Ansible Logos](/static/tf-ansible.png)
 
 ## A guide to coupling a few using infrastructure as code and configuaration tools together to provide an effective, repeatable pattern for building instances both locally and remotely.
 
@@ -182,8 +182,8 @@ You'll be prompted to apply your changes, go ahead.
 
 If you check your AWS account, you should see the services in place:
 
-![tf-ansible-s3.png](Example showing S3 bucket)
-![tf-ansible-dynamodb.png](Example showing DynamoDB table)
+![Example showing S3 bucket](/static/tf-ansible-s3.png)
+![Example showing DynamoDB table](/static/tf-ansible-dynamodb.png)
 
 Now you're ready to build your first instance.
 
@@ -337,7 +337,7 @@ make init
 make apply
 ```
 
-![tf-ansible-ec2.png](Example showing created AWS EC2 instance)
+![Example showing created AWS EC2 instance](/static/tf-ansible-ec2.png)
 
 ### Configuring Ansible
 
@@ -410,7 +410,7 @@ resource "null_resource" "ansible" {
 
 Now run `make apply` one more time, and your ansible should trigger and install ngix.
 
-![tf-ansible-terminal.png](Example showing completed execution in the terminal)
+![Example showing completed execution in the terminal](/static/tf-ansible-terminal.png)
 
 ### The Result
 
@@ -425,6 +425,6 @@ hostname = "ec2-18-130-17-56.eu-west-2.compute.amazonaws.com"
 You can head to, for example, [http://ec2-18-130-17-56.eu-west-2.compute.amazonaws.com](http://ec2-18-130-17-56.eu-west-2.compute.amazonaws.com) 
 in your browser and see the resulting install working:
 
-![tf-ansible-terminal.png](Example showing completed execution in the terminal)
+![Example showing nginx screen](/static/tf-ansible-nginx.png)
 
 Now think about how you can expand this to do what you need!

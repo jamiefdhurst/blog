@@ -15,7 +15,7 @@ class Article:
         self.filename = filename
         try:
             with open(directory + filename, encoding='UTF8') as file:
-                self.contents = markdown(file.read())
+                self.contents = markdown(file.read(), extensions=['fenced_code'])
         except FileNotFoundError as fnfe:
             raise ArticleNotFoundException(f"Could not find article file {filename}") from fnfe
 
