@@ -4,6 +4,6 @@ ENV FLASK_ENV=development
 WORKDIR /app
 COPY . .
 RUN python setup.py develop
-RUN pip install pylint pytest coverage
+RUN pip install pylint pytest requests-mock coverage
 EXPOSE 5000
 ENTRYPOINT ["flask", "run"]

@@ -36,7 +36,6 @@ class Article:
         date = find_date.match(self.filename)
         if not date:
             raise InvalidDateForArticleException(f"Could not parse date for article {self.filename}")
-        current_app.logger.debug(date.group(1))
         return datetime.datetime.strptime(date.group(1), '%Y-%m-%d')
 
     def get_image(self):
@@ -71,12 +70,6 @@ def __parse_articles(directory, files):
 
 def get_article(directory, file):
     return Article(directory, file + '.md')
-
-
-def get_articles(directory):
-    files = [f for f in listdir(directory) if isfile(join(directory, f))]
-    files.sort()
-    return __parse_articles(directory, files)
 
 
 def get_paginated_articles(directory, page=1, per_page=10):

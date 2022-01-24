@@ -12,6 +12,19 @@ def test_config():
     assert app.config['GITHUB_USERNAME'] == 'jamiefdhurst'
     assert app.config['GITHUB_TOKEN'] == 'example'
 
-def test_index(client):
+def test_github_default_response(client):
     response = client.get('/')
-    assert b'Blog' in response.data
+    assert b'System DEVELOPMENT' in response.data
+
+def test_github_empty_response(mock_github_request_empty_response, client):
+    response = client.get('/')
+    assert b'System DEVELOPMENT' in response.data
+
+def test_github_successful_response(mock_github_request, client):
+    response = client.get('/')
+    assert b'System v1.0-TEST' in response.data
+
+def test_404(client):
+    response = client.get('/not-found-path')
+    assert b'Page Not Found' in response.data
+    assert 404 == response.status_code
