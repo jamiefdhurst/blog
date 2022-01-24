@@ -1,0 +1,7 @@
+# Test 1
+
+![Placeholder](/static/placeholder.png)
+
+## A test article that has very little inside of it.
+
+They were just sucked into space. I'm afraid I still don't understand, sir. Travel time to the nearest starbase? A surprise party? Mr. Worf, I hate surprise parties. I would *never* do that to you. Smooth as an android's bottom, eh, Data? Now, how the hell do we defeat an enemy that knows us better than we know ourselves? I recommend you don't fire until you're within 40,000 kilometers. Shields up! Rrrrred alert! And blowing into maximum warp speed, you appeared for an instant to be in two places at once. Wait a minute - you've been declared dead. You can't give orders around here. This is not about revenge. This is about justice. The Federation's gone; the Borg is everywhere! We know you're dealing in stolen ore. But I wanna talk about the assassination attempt on Lieutenant Worf. Talk about going nowhere fast. Fate. It protects fools, little children, and ships named "Enterprise." Did you come here for something in particular or just general Riker-bashing? When has justice ever been as simple as a rule book? Commander William Riker of the Starship Enterprise.
