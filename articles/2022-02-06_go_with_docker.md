@@ -5,7 +5,7 @@
 ## I explain how to use Docker with my a simple web server in Go, how that can be integrated that into a build pipeline in Jenkins to illustrate test results and code coverage.
 
 Building a web server or application with Go may not be everyone's first choice, but there are some significant 
-advantages to think about: a stringly-typed language makes everything a little more predictable and Go still makes 
+advantages to think about: a strongly-typed language makes everything a little more predictable and Go still makes 
 things nice and easy to get started with some built-in libraries, you can easily extend out and test what you need, and 
 of course Go is extremely lightweight and fast - your application will be able to handle a lot of throughput right out 
 of the box. Also, why not, it's fun!
