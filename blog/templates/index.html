@@ -8,7 +8,7 @@
           Posted on {{ article.get_date().strftime('%A %B %-d, %Y') }}
         </h3>
         <div class="summary">
-          {% if article.get_image() %}{{ article.get_image()|safe }}{% endif %}
+          {% if article.get_image() %}<p>{{ article.get_image()|safe }}</p>{% endif %}
           {% if article.get_summary() %}
             <p>{{ article.get_summary() }}</p><p><a href="/{{ article.get_name() }}">Read More</a></p>
           {% else %}
