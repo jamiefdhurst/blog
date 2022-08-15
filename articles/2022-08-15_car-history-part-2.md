@@ -6,6 +6,8 @@
 
 Continuing the last post, part 2 details some newer cars when I was having a little more of a "sensible" period, but that didn't last long...
 
+If you missed [part 1](/2022-08-07_car-history), I suggest reading that first.
+
 ### 6. 2011 Skoda Fabia VRS (BG61 ODL)
 
 My first brand new car, the Skoda Fabia VRS was exactly what I needed. It was quick, it was new and it was much more economical than anything I'd driven in quite a while. It was also cheap enough, only costing me £205 a month at the time for a 2-year lease, not very bad at all.
