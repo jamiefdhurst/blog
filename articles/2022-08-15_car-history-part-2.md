@@ -66,4 +66,4 @@ I could write up a post about the Trabant on its own, but suffice to say it was 
 
 ## Final
 
-The final part is coming shortly...
+The [final part](/2022-08-22_car-history-part-3) brings us nicely up to today.
