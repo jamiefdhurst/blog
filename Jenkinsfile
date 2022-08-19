@@ -40,7 +40,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                library identifier: 'infrastructure@master'
+                library identifier: 'jenkins@main'
                 build job: '/github/blog-folder/deploy', wait: true, parameters: [
                     string(name: 'targetVersion', value: getVersion(repo: 'jamiefdhurst/blog').full)
                 ]
