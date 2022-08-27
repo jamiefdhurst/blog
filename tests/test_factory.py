@@ -14,7 +14,7 @@ def test_config():
 
 def test_github_default_response(client):
     response = client.get('/')
-    assert b'System DEVELOPMENT' in response.data
+    assert b'System v' in response.data
 
 def test_github_empty_response(mock_github_request_empty_response, client):
     response = client.get('/')
