@@ -12,10 +12,6 @@ def test_config():
     assert app.config['GITHUB_USERNAME'] == 'jamiefdhurst'
     assert app.config['GITHUB_TOKEN'] == 'example'
 
-def test_github_default_response(client):
-    response = client.get('/')
-    assert b'System v' in response.data
-
 def test_github_empty_response(mock_github_request_empty_response, client):
     response = client.get('/')
     assert b'System DEVELOPMENT' in response.data
