@@ -75,6 +75,16 @@ h1 {
     float: right;
 }
 
+.links > a {
+    box-shadow: inset 0 -2px 0 currentColor;
+    margin-left: 1em;
+    transition: .3s;
+
+    &:hover {
+        box-shadow: none;
+    }
+}
+
 article {
     margin-bottom: 7em;
     padding: 1rem 0;

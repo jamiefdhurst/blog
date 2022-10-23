@@ -6,6 +6,12 @@ def test_index(client):
     assert b'placeholder.png' in response.data
     assert b'very little inside of it' in response.data
 
+def test_now(client):
+    response = client.get('/now')
+    assert b'What I\'m doing right now...' in response.data
+    assert b'Martin Underhill' in response.data
+    assert b'<li>' in response.data
+
 def test_view(client):
     response = client.get('/2022-01-01_test-1')
     assert b'Test 1' in response.data

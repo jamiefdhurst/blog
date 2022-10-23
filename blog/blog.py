@@ -20,6 +20,12 @@ def index():
         pages=[None] * pages,
     )
 
+@bp.route('/now', methods=['GET'])
+def now():
+    return render_template(
+        'now.html',
+    )
+
 @bp.route('/<slug>', methods=['GET'])
 def view(slug):
     directory = current_app.config['ARTICLES_DIR']
