@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="UTF-8" />
-    <title>Jamie's Blog {% block title %}{% endblock %}</title>
+    <title>Jamie Hurst's Blog {% block title %}{% endblock %}</title>
     <meta name="viewport" content="device-width" />
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/default.min.css') }}" />
+    <meta name="description" content="Jamie Hurst - Software and System Engineer, Enthusiast of Terrible Cars" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/default.min.css') }}?v={{ g.version }}" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/static/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png" />
+    <link rel="manifest" href="/static/site.webmanifest" />
 </head>
 <body>
     <header role="banner">
-        <h1><a href="/">Jamie Hurst - Software and System Engineer, Enthusiast of Terrible Cars</a></h1>
+        <a href="/">Jamie Hurst - Software and System Engineer, Enthusiast of Terrible Cars</a>
         <p class="float-right links">
             <a href="/">Blog</a>
             <a href="/now">Now</a>
             <a target="_blank" rel="me" href="https://github.com/jamiefdhurst">GitHub</a>
-            <a target="_blank" rel="me" href="https://mastodon.social/@jamiefdhurst">Mastodon</a>
+            <a target="_blank" rel="me" href="https://howdee.social/@jamiefdhurst">Mastodon</a>
         </p>
     </header>
     <main role="main">
