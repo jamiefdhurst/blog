@@ -1,10 +1,30 @@
 from flask import (
-    abort, Blueprint, current_app, render_template, request
+    abort, Blueprint, current_app, make_response, render_template, request, send_from_directory
 )
 
 from . import articles
 
 bp = Blueprint('blog', __name__)
+
+@bp.route('/favicon.ico')
+@bp.route('/humans.txt')
+@bp.route('/robots.txt')
+def static_from_root():
+    return send_from_directory(current_app.static_folder, request.path[1:])
+
+@bp.route('/sitemap.xml', methods=['GET'])
+def sitemap():
+    directory = current_app.config['ARTICLES_DIR']
+    parsed_articles = articles.get_all_articles(directory)
+
+    template = render_template(
+        'sitemap.xml',
+        articles=parsed_articles,
+    )
+    response = make_response(template)
+    response.headers['Content-Type'] = 'application/xml'
+
+    return response
 
 @bp.route('/', methods=['GET'])
 def index():

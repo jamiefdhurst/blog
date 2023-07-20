@@ -1,12 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <article class="view">
-        <h2>{{ article.get_title() }}</h2>
-        <h3>
-            Posted on {{ article.get_date().strftime('%A %B %-d, %Y') }}
-        </h3>
-        <div class="content">
+    <article class="view" itemscope itemtype="https://schema.org/BlogPosting">
+        <h1 itemprop="title headline">{{ article.get_title() }}</h1>
+        <p class="date">
+            <span itemprop="dateCreated pubdate datePublished" content="{{ article.get_date().isoformat() }}">Posted on {{ article.get_date().strftime('%A %B %-d, %Y') }}</span>
+        </p>
+        <div class="content" itemprop="mainEntityOfPage">
             {{ article.get_content_only()|safe }}
         </div>
     </article>

@@ -82,6 +82,12 @@ def get_paginated_articles(directory, page=1, per_page=10):
     files = files[first_entry:last_entry]
     return __parse_articles(directory, files)
 
+def get_all_articles(directory):
+    files = [f for f in listdir(directory) if isfile(join(directory, f))]
+    files.sort()
+    files.reverse()
+    current_app.logger.debug(f"Returned {len(files)} files...")
+    return __parse_articles(directory, files)
 
 def get_pages(directory, per_page=10):
     files = [f for f in listdir(directory) if isfile(join(directory, f))]
