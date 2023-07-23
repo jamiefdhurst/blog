@@ -12,7 +12,7 @@
         <div class="summary">
           {% if article.get_image() %}<p>{{ article.get_image()|safe }}</p>{% endif %}
           {% if article.get_summary() %}
-            <p>{{ article.get_summary() }}</p><p><a href="/{{ article.get_name() }}">Read More</a></p>
+            <p>{{ article.get_summary()|safe }}</p><p><a href="/{{ article.get_name() }}">Read More</a></p>
           {% else %}
             <p><a href="/{{ article.get_name() }}">Read</a></p>
           {% endif %}
