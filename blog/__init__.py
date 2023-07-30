@@ -15,13 +15,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    github = requests.get('https://api.github.com/repos/jamiefdhurst/blog/releases',
-        auth=(app.config['GITHUB_USERNAME'], app.config['GITHUB_TOKEN']))
-    if github.status_code == 200:
-        response = github.json()
-        if len(response):
-            app.config.update(VERSION=response[0]['name'])
-
     @app.before_request
     def load_version():
         # pylint: disable=assigning-non-slot
