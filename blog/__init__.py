@@ -1,5 +1,4 @@
 import os
-import requests
 from flask import Flask, g, render_template, url_for
 from werkzeug.exceptions import HTTPException
 
