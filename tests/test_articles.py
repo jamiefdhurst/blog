@@ -28,6 +28,12 @@ def test_get_paginated_articles_out_of_range(app):
         sut = get_paginated_articles('tests/articles/', 2, 10)
         assert len(sut) == 0
 
+def test_get_all_articles(app):
+    with app.app_context():
+        sut = get_all_articles('tests/articles/')
+        assert len(sut) == 2
+        assert sut[0].get_name() == '2022-01-02_test-2'
+
 def test_get_pages(app):
     with app.app_context():
         assert get_pages('tests/articles/') == 1
