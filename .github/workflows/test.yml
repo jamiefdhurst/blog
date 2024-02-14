@@ -32,7 +32,7 @@ jobs:
           python-version: '3.12'
       - name: Install Dependencies
         run: |
-          python -m pip install pylint pytest requests-mock coverage
+          python -m pip install setuptools pylint pytest requests-mock coverage
           python setup.py develop
       - name: Test
         run: |
