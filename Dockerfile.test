@@ -1,8 +1,0 @@
-FROM python:slim-buster
-ENV FLASK_APP=blog
-ENV FLASK_ENV=development
-WORKDIR /app
-COPY . .
-RUN python setup.py develop
-RUN pip install pylint pytest requests-mock coverage
-EXPOSE 5000
