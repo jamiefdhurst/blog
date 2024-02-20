@@ -52,22 +52,36 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "[skip ci] Update version to v${{ steps.version.outputs.value }}"
-      - name: Docker Login
-        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.PAT }}
-      - name: Build and Push Docker Image
+          python-version: '3.12'
+      - name: Install Dependencies
         run: |
-          docker build -t ghcr.io/jamiefdhurst/blog:latest .
-          docker tag ghcr.io/jamiefdhurst/blog:latest ghcr.io/jamiefdhurst/blog:v${{ steps.version.outputs.value }}
-          docker push ghcr.io/jamiefdhurst/blog:latest
-          docker push ghcr.io/jamiefdhurst/blog:v${{ steps.version.outputs.value }}
+          python -m pip install setuptools
+          python setup.py develop
+      - name: Generate Distribution
+        run: |
+          python -m blog.generate
+          cd dist
+          zip ../dist.zip *
+      # - name: Docker Login
+      #   uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.PAT }}
+      # - name: Build and Push Docker Image
+      #   run: |
+      #     docker build -t ghcr.io/jamiefdhurst/blog:latest .
+      #     docker tag ghcr.io/jamiefdhurst/blog:latest ghcr.io/jamiefdhurst/blog:v${{ steps.version.outputs.value }}
+      #     docker push ghcr.io/jamiefdhurst/blog:latest
+      #     docker push ghcr.io/jamiefdhurst/blog:v${{ steps.version.outputs.value }}
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
         with:
           allowUpdates: true
+          artifacts: dist.zip
           draft: false
           makeLatest: true
           tag: v${{ steps.version.outputs.value }}

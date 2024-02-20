@@ -1,5 +1,5 @@
 from os import environ 
 
-SECRET_KEY = environ.get('SECRET_KEY', default='dev')
 ARTICLES_DIR = environ.get('ARTICLES_DIR', default='articles/')
-VERSION = 'v0.23.0'
+DIST_DIR = environ.get('DIST_DIR', default='dist/')
+VERSION = 'v0.23.1'

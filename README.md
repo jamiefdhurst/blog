@@ -1,7 +1,7 @@
 # Blog
 
-My blog website - built using Flask in Python. A standalone web app that 
-requires no separate database and is powered through Markdown articles.
+My blog website - generated from Jinja templates and markdown articles as a 
+static site.
 
 ## Development
 
@@ -11,10 +11,10 @@ You will require Python 3. Run the following to install required modules:
 python3 setup.py develop
 ```
 
-You can then launch the project using:
+You can then generate the site using:
 
 ```bash
-FLASK_APP=blog flask run
+python3 -m blog.generate
 ```
 
 ## Testing
@@ -27,17 +27,8 @@ pytest --verbose
 
 ## Build and Release
 
-The Jenkins pipeline handles build and release. Upon the main branch being 
-updated, a new version of the blog will eb automatically released to GitHub and 
-the new version will be immediately deployed to the live website. The same 
-pipeline can be used to deploy other versions if required.
-
-## Makefile
-
-A Makefile has been added for convenience to run certain commands:
-
-* `build` - build the Docker images (standard and test)
-* `test` - run the tests after launching the test container
-* `test-with-reports` - run the tests and output the required reports
-* `run` - launch the blog container listening on port 5000
-* `clean` - shut down and clean all running containers
+The GitHub Actions pipeline handles testing, building and releasing the static 
+site version. Upon the main branch being updated, a new version of the blog will
+be automatically released to GitHub and the new version will be immediately 
+deployed to the live website. The same pipeline can be used to deploy other 
+versions if required.
