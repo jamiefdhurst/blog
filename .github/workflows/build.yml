@@ -64,19 +64,7 @@ jobs:
         run: |
           python -m blog.generate
           cd dist
-          zip ../dist.zip *
-      # - name: Docker Login
-      #   uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
-      #   with:
-      #     registry: ghcr.io
-      #     username: ${{ github.actor }}
-      #     password: ${{ secrets.PAT }}
-      # - name: Build and Push Docker Image
-      #   run: |
-      #     docker build -t ghcr.io/jamiefdhurst/blog:latest .
-      #     docker tag ghcr.io/jamiefdhurst/blog:latest ghcr.io/jamiefdhurst/blog:v${{ steps.version.outputs.value }}
-      #     docker push ghcr.io/jamiefdhurst/blog:latest
-      #     docker push ghcr.io/jamiefdhurst/blog:v${{ steps.version.outputs.value }}
+          zip -r ../dist.zip *
       - name: Create Release
         uses: ncipollo/release-action@v1.12.0
         with:
