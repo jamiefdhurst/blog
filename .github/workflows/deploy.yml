@@ -73,6 +73,7 @@ jobs:
           if_false: blue
       - name: Upload ${{ steps.version.outputs.value }} to ${{ steps.release_colour.outputs.value }}
         run: |
+          rm *.zip
           rm -Rf static
           aws s3 sync . s3://jamiehurst-blog-${{ steps.release_colour.outputs.value }}/ --delete
       - name: Switch colour to ${{ steps.release_colour.outputs.value }}
