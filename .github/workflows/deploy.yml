@@ -73,8 +73,8 @@ jobs:
           if_false: blue
       - name: Upload ${{ steps.version.outputs.value }} to ${{ steps.release_colour.outputs.value }}
         run: |
-          aws s3 sync . s3://jamiehurst-blog-${{ steps.release_colour.outputs.value }}/ \
-            --exclude static
+          rm -Rf static
+          aws s3 sync . s3://jamiehurst-blog-${{ steps.release_colour.outputs.value }}/ --delete
       - name: Switch colour to ${{ steps.release_colour.outputs.value }}
         run: |
           aws --region us-east-1 ssm put-parameter \
