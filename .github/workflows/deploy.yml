@@ -45,17 +45,13 @@ jobs:
           description: ${{ steps.version.outputs.value }}
           environment: production
       - name: Setup AWS CLI
-        uses: aws-actions/configure-aws-credentials@v1
-        env:
-          AWS_DEFAULT_REGION:
-          AWS_REGION:
-          AWS_ACCESS_KEY_ID:
-          AWS_SECRET_ACCESS_KEY:
-          AWS_SESSION_TOKEN:
+        uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ""
           aws-region: eu-west-1
+          unset-current-credentials: true
       - name: Upload static assets
         run: |
           cd static
@@ -77,7 +73,7 @@ jobs:
           if_false: blue
       - name: Upload ${{ steps.version.outputs.value }} to ${{ steps.release_colour.outputs.value }}
         run: |
-          aws s3 sync * s3://jamiehurst-blog-${{ steps.release_colour.outputs.value }}/ \
+          aws s3 sync . s3://jamiehurst-blog-${{ steps.release_colour.outputs.value }}/ \
             --exclude static
       - name: Switch colour to ${{ steps.release_colour.outputs.value }}
         run: |
