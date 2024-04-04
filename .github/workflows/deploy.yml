@@ -38,7 +38,7 @@ jobs:
           zipBall: false
           extract: true
       - uses: chrnorm/deployment-action@releases/v1
-        name: Create deployment
+        name: Create deployment for ${{ steps.version.outputs.value }}
         id: deployment
         with:
           token: ${{ secrets.PAT }}
@@ -46,6 +46,12 @@ jobs:
           environment: production
       - name: Setup AWS CLI
         uses: aws-actions/configure-aws-credentials@v1
+        env:
+          AWS_DEFAULT_REGION:
+          AWS_REGION:
+          AWS_ACCESS_KEY_ID:
+          AWS_SECRET_ACCESS_KEY:
+          AWS_SESSION_TOKEN:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -62,18 +68,18 @@ jobs:
             --with-decryption \
             --query 'Parameter.Value' \
             --output text
-      - name: Opposite colour for release
+      - name: Get opposite colour for release
         id: release_colour
         uses: haya14busa/action-cond@v1
         with:
           cond: ${{ ! contains(steps.live_colour.outputs.value, 'blue') }}
           if_true: green
           if_false: blue
-      - name: Upload new version
+      - name: Upload ${{ steps.version.outputs.value }} to ${{ steps.release_colour.outputs.value }}
         run: |
           aws s3 sync * s3://jamiehurst-blog-${{ steps.release_colour.outputs.value }}/ \
             --exclude static
-      - name: Switch colour
+      - name: Switch colour to ${{ steps.release_colour.outputs.value }}
         run: |
           aws --region us-east-1 ssm put-parameter \
             --name blog-blue-green \
