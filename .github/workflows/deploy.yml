@@ -1,0 +1,97 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag to deploy'
+        required: false
+        default: ''
+  workflow_run:
+    workflows: [Build]
+    types:
+      - completed
+
+concurrency:
+  group: ${{ github.workflow }}
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get latest version
+        if: ${{ ! contains(inputs.version, '.') }}
+        id: latest
+        uses: gregziegan/fetch-latest-release@v2.0.0
+      - name: Resolve version
+        id: version
+        uses: haya14busa/action-cond@v1
+        with:
+          cond: ${{ ! contains(inputs.version, '.') }}
+          if_true: ${{ steps.latest.outputs.name }}
+          if_false: ${{ inputs.version }}
+      - uses: robinraju/release-downloader@v1.9
+        with:
+          tag: ${{ steps.version.outputs.value }}
+          fileName: "blog-*.zip"
+          tarBall: false
+          zipBall: false
+          extract: true
+      - uses: chrnorm/deployment-action@releases/v1
+        name: Create deployment
+        id: deployment
+        with:
+          token: ${{ secrets.PAT }}
+          description: ${{ steps.version.outputs.value }}
+          environment: production
+      - name: Setup AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+      - name: Upload static assets
+        run: |
+          cd static
+          aws s3 sync * s3://jamiehurst-blog-static/
+      - name: Get current live colour
+        id: live_colour
+        run: |
+          aws --region us-east-1 ssm get-parameter \
+            --name blog-blue-green \
+            --with-decryption \
+            --query 'Parameter.Value' \
+            --output text
+      - name: Opposite colour for release
+        id: release_colour
+        uses: haya14busa/action-cond@v1
+        with:
+          cond: ${{ ! contains(steps.live_colour.outputs.value, 'blue') }}
+          if_true: green
+          if_false: blue
+      - name: Upload new version
+        run: |
+          aws s3 sync * s3://jamiehurst-blog-${{ steps.release_colour.outputs.value }}/ \
+            --exclude static
+      - name: Switch colour
+        run: |
+          aws --region us-east-1 ssm put-parameter \
+            --name blog-blue-green \
+            --type String \
+            --value "${{ steps.release_colour.outputs.value }}"
+      - name: Update deployment status (success)
+        if: success()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: ${{ secrets.PAT }}
+          environment-url: https://jamiehurst.co.uk
+          state: success
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: chrnorm/deployment-status@v2
+        with:
+          token: ${{ secrets.PAT }}
+          environment-url: https://jamiehurst.co.uk
+          state: failure
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
