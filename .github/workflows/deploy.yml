@@ -30,7 +30,7 @@ jobs:
           cond: ${{ ! contains(inputs.version, '.') }}
           if_true: ${{ steps.latest.outputs.name }}
           if_false: ${{ inputs.version }}
-      - uses: robinraju/release-downloader@v1.9
+      - uses: robinraju/release-downloader@v1.8
         with:
           tag: ${{ steps.version.outputs.value }}
           fileName: "blog-*.zip"
