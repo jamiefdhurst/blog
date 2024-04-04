@@ -80,6 +80,7 @@ jobs:
           aws --region us-east-1 ssm put-parameter \
             --name blog-blue-green \
             --type String \
+            --overwrite \
             --value "${{ steps.release_colour.outputs.value }}"
       - name: Update deployment status (success)
         if: success()
