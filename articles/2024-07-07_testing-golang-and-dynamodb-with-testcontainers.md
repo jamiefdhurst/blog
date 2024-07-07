@@ -411,3 +411,99 @@ There are some things you could think about if you wanted to try this yourself, 
 For reference, all the code used today is available in GitHub at the following gist: [https://gist.github.com/jamiefdhurst/6fc5990c588f89520f136ffc1c3ccbe5](https://gist.github.com/jamiefdhurst/6fc5990c588f89520f136ffc1c3ccbe5).
 
 Any questions or comments, reach me on [Mastodon](https://howdee.social/@jamiefdhurst) or find me through my [GitHub profile](https://github.com/jamiefdhurst).
+
+### Bonus: Improving the Sorting
+
+So far, we've sorted in the client by reordering the array - this is fine for a few entries, but this really should be something that we let the database handle for us. DynamoDB can only query when its presented with a partition key and a sort key, so the data needs to be remodelled slightly to ensure that we can use this as efficiently as possible.
+
+Our partition key will change to be **game**, a new attribute we're always going to set to "standard" for now, but which later might allow us to support multiple game types in the future. Then, we're going to change our sort key to be **score-name** - an aggregate of the score and name, so we can sort the data effectively. We can cheaply store the name and value alongside these entries as we always did, but this will allow the querying with DynamoDB to work effectively.
+
+Firstly, we need to add this in `dynamodb.go` above the table name definition on line 14:
+
+```golang
+const gameName string = "standard"
+```
+
+Now, the table definition function for `createTable` needs to change in `dynamodb.go` to update the partition and sort keys to what we need for the tests:
+
+```golang
+func createTable(c *dynamodb.Client) error {
+	_, err := c.CreateTable(context.TODO(), &dynamodb.CreateTableInput{
+		TableName:   aws.String(tableName),
+		BillingMode: types.BillingModePayPerRequest,
+		AttributeDefinitions: []types.AttributeDefinition{
+			{
+				AttributeName: aws.String("game"),
+				AttributeType: types.ScalarAttributeTypeS,
+			},
+			{
+				AttributeName: aws.String("score-name"),
+				AttributeType: types.ScalarAttributeTypeS,
+			},
+		},
+		KeySchema: []types.KeySchemaElement{
+			{
+				AttributeName: aws.String("game"),
+				KeyType:       types.KeyTypeHash,
+			},
+			{
+				AttributeName: aws.String("score-name"),
+				KeyType:       types.KeyTypeRange,
+			},
+		},
+	})
+
+	return err
+}
+```
+
+Next, we need to replace the `save` function as follows:
+
+```golang
+func save(c *dynamodb.Client, name string, value uint32) error {
+	_, err := c.PutItem(context.TODO(), &dynamodb.PutItemInput{
+		TableName: aws.String(tableName),
+		Item: map[string]types.AttributeValue{
+			"game":       &types.AttributeValueMemberS{Value: gameName},
+			"score-name": &types.AttributeValueMemberS{Value: fmt.Sprint(value) + "-" + name},
+			"name":       &types.AttributeValueMemberS{Value: name},
+			"value":      &types.AttributeValueMemberN{Value: fmt.Sprint(value)},
+		},
+	})
+
+	return err
+}
+```
+
+Finally, we need to replace the `get` function as follows:
+
+```golang
+func get(c *dynamodb.Client) []Score {
+	out, err := c.Query(context.TODO(), &dynamodb.QueryInput{
+		TableName:              aws.String(tableName),
+		KeyConditionExpression: aws.String("game = :hashKey"),
+		ExpressionAttributeValues: map[string]types.AttributeValue{
+			":hashKey": &types.AttributeValueMemberS{Value: gameName},
+		},
+		ScanIndexForward: aws.Bool(false),
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	var result []Score
+	attributevalue.UnmarshalListOfMaps(out.Items, &result)
+
+	return result
+}
+```
+
+To update this locally, if your DynamoDB container is running then stop it first, and then recreate your table by adding the index as follows:
+
+```bash
+aws dynamodb --endpoint http://localhost:8000 create-table --table-name scoreboard --attribute-definitions 'AttributeName=game,AttributeType=S' 'AttributeName=score-name,AttributeType=S' --key-schema 'AttributeName=game,KeyType=HASH' 'AttributeName=score-name,KeyType=RANGE' --billing-mode PAY_PER_REQUEST
+```
+
+If all goes well, you shouldn't need to update the tests or anything in the controller file - this single piece of logic should do it.
+
+Try it out by running your server, and adding some more scores!
