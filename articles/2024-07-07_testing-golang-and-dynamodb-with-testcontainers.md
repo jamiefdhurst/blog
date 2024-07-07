@@ -1,6 +1,6 @@
 # Testing Golang and AWS DynamoDB with TestContainers
 
-![Walking Towards a Set of Shipping Containers with Go Logo and DynamoDB Logo Above](/static/golang-dynamodb.jpg)
+![Walking Towards a Set of Shipping Containers with Go Logo and DynamoDB Logo Above](/static/golang-dynamodb.png)
 
 ## While trying out a refactor for my [Journal](https://github.com/jamiefdhurst/journal) and a move towards more native AWS services with Lambda and DynamoDB, trying to fully test the application without using an AWS account itself started to become challenging. This article gives an overview of how you can use DynamoDB with Golang, and how to use TestContainers, something I've used extensively with Java, in place of a docker compose setup to wrap your Go tests.
 
