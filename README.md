@@ -17,6 +17,14 @@ You can then generate the site using:
 python3 -m blog.generate
 ```
 
+To run a local Docker instance of Nginx to serve a generated set of files, run:
+
+```bash
+docker run --rm --name blog -v $(pwd)/docker/nginx.conf:/etc/nginx/nginx.conf:ro -v $(pwd)/dist:/usr/share/nginx/html -p 8080:80 nginx
+```
+
+Then head to http://localhost:8080 to view the results.
+
 ## Testing
 
 Testing uses Pytest - run it as follows:
