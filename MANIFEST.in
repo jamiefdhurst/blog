@@ -1,4 +1,0 @@
-graft app/assets
-graft app/static
-graft app/templates
-global-exclude *.pyc
