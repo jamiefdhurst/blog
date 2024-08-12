@@ -13,10 +13,10 @@ class Article:
 
         self.filename = filename
         try:
-            with open(directory + filename, encoding='UTF8') as file:
+            with open(directory + filename, encoding='UTF-8') as file:
                 self.contents = markdown(file.read(), extensions=['fenced_code'])
         except FileNotFoundError as fnfe:
-            raise ArticleNotFoundException(f"Could not find article file {filename}") from fnfe
+            raise ArticleNotFoundException(f'Could not find article file {filename}') from fnfe
 
     def get_contents(self):
         return self.contents
@@ -24,7 +24,7 @@ class Article:
     def get_content_only(self):
         title = self.find_title.search(self.contents)
         summary = self.find_summary.search(self.contents)
-        contents = self.contents.replace(title.group(0), '')    
+        contents = self.contents.replace(title.group(0), '')
         if summary:
             return contents.replace(summary.group(0), '')
         return contents
@@ -34,7 +34,8 @@ class Article:
         find_date = re.compile(r'^(\d{4}-\d{2}-\d{2})_')
         date = find_date.match(self.filename)
         if not date:
-            raise InvalidDateForArticleException(f"Could not parse date for article {self.filename}")
+            raise InvalidDateForArticleException(
+                f'Could not parse date for article {self.filename}')
         return datetime.datetime.strptime(date.group(1), '%Y-%m-%d')
 
     def get_image(self):
@@ -55,7 +56,8 @@ class Article:
     def get_title(self):
         title = self.find_title.search(self.contents)
         if not title:
-            raise InvalidTitleForArticleException(f"Could not parse title for article {self.filename}")
+            raise InvalidTitleForArticleException(
+                f'Could not parse title for article {self.filename}')
         return title.group(1)
 
 
@@ -69,7 +71,6 @@ def __parse_articles(directory, files):
 
 def get_article(directory, file):
     return Article(directory, file + '.md')
-
 
 def get_paginated_articles(directory, page=1, per_page=10):
     files = [f for f in listdir(directory) if isfile(join(directory, f))]
