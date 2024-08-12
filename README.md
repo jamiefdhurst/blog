@@ -8,6 +8,7 @@ static site.
 You will require Python 3. Run the following to install required modules:
 
 ```bash
+python3 -m pip installl -r requirements.txt
 python3 setup.py develop
 ```
 
@@ -20,14 +21,25 @@ python3 -m blog.generate
 To run a local Docker instance of Nginx to serve a generated set of files, run:
 
 ```bash
-docker run --rm --name blog -v $(pwd)/docker/nginx.conf:/etc/nginx/nginx.conf:ro -v $(pwd)/dist:/usr/share/nginx/html -p 8080:80 nginx
+docker run --rm -d --name blog -v $(pwd)/docker/nginx.conf:/etc/nginx/nginx.conf:ro -v $(pwd)/dist:/usr/share/nginx/html -p 8080:80 nginx
 ```
+
+You can then run the when-changed package to automatically generate the blog files anytime a change is made:
+
+```bash
+when-changed -r -1 articles blog -c python3 -m blog.generate
+```
+
+*(You must be using a virtual environment or your
+Python bin files must be on your path for this to work.)*
 
 Then head to http://localhost:8080 to view the results.
 
+You can stop the docker container with `docker stop blog`.
+
 ## Testing
 
-Testing uses Pytest - run it as follows:
+Testing uses Pytest - run it as follows (installing the required modules too):
 
 ```bash
 pytest --verbose
