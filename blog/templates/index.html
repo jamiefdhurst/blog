@@ -23,7 +23,7 @@
     <ol>
       {% for page in pages %}
         <li class="{% if current_page == loop.index %}current{% endif %}">
-          <a href="/?page={{ loop.index }}">{{ loop.index }}</a>
+          <a href="/{% if loop.index > 1 %}?page={{ loop.index }}{% endif %}">{{ loop.index }}</a>
         </li>
       {% endfor %}
     </ol>
