@@ -17,11 +17,17 @@ def render_template(file, **kwargs):
 def generate(articles_dir=ARTICLES_DIR, dist_dir=DIST_DIR):
 
     # Create/clear dist folder
-    if os.path.isdir(dist_dir):
+    if not os.path.isdir(dist_dir):
+        print('[INFO] Creating output dir...')
+        os.mkdir(dist_dir)
+    else:
         print('[INFO] Clearing existing output dir...')
-        shutil.rmtree(dist_dir)
-    print('[INFO] Creating output dir...')
-    os.mkdir(dist_dir)
+        with os.scandir(dist_dir) as entries:
+            for entry in entries:
+                if entry.is_file():
+                    os.unlink(entry.path)
+                else:
+                    shutil.rmtree(entry.path)
 
     # Get all articles and generate a page for each one
     print('[INFO] Loading articles...')
