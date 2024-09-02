@@ -64,7 +64,6 @@ jobs:
             cd /srv
             unzip blog-${{ steps.version.outputs.value }}.zip -o -d blog-${{ steps.version.outputs.value }}/
             rm blog
-            rm blog-*.zip
             ln -s blog-${{ steps.version.outputs.value }} blog
             service nginx reload
       - name: Update deployment status (success)
