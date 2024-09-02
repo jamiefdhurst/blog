@@ -36,7 +36,7 @@ jobs:
           fileName: "blog-*.zip"
           tarBall: false
           zipBall: false
-          extract: true
+          extract: false
       - uses: chrnorm/deployment-action@releases/v1
         name: Create deployment for ${{ steps.version.outputs.value }}
         id: deployment
@@ -44,45 +44,29 @@ jobs:
           token: ${{ secrets.PAT }}
           description: ${{ steps.version.outputs.value }}
           environment: production
-      - name: Setup AWS CLI
-        uses: aws-actions/configure-aws-credentials@v4.0.2
+      - name: Upload release ${{ steps.version.outputs.value }} to server
+        uses: appleboy/scp-action@v0.1.7
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ""
-          aws-region: eu-west-1
-          unset-current-credentials: true
-      - name: Upload static assets
-        run: |
-          cd static
-          aws s3 sync . s3://jamiehurst-blog-static/
-      - name: Get current live colour
-        id: live_colour
-        run: |
-          aws --region us-east-1 ssm get-parameter \
-            --name blog-blue-green \
-            --with-decryption \
-            --query 'Parameter.Value' \
-            --output text
-      - name: Get opposite colour for release
-        id: release_colour
-        uses: haya14busa/action-cond@v1
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: blog-${{ steps.version.outputs.value }}.zip
+          target: /srv/
+      - name: Upload release ${{ steps.version.outputs.value }} to server
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          cond: ${{ ! contains(steps.live_colour.outputs.value, 'blue') }}
-          if_true: green
-          if_false: blue
-      - name: Upload ${{ steps.version.outputs.value }} to ${{ steps.release_colour.outputs.value }}
-        run: |
-          rm *.zip
-          rm -Rf static
-          aws s3 sync . s3://jamiehurst-blog-${{ steps.release_colour.outputs.value }}/ --delete
-      - name: Switch colour to ${{ steps.release_colour.outputs.value }}
-        run: |
-          aws --region us-east-1 ssm put-parameter \
-            --name blog-blue-green \
-            --type String \
-            --overwrite \
-            --value "${{ steps.release_colour.outputs.value }}"
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /srv
+            unzip blog-${{ steps.version.outputs.value }}.zip -o -d blog-${{ steps.version.outputs.value }}/
+            rm blog
+            rm blog-*.zip
+            ln -s blog-${{ steps.version.outputs.value }} blog
+            service nginx reload
       - name: Update deployment status (success)
         if: success()
         uses: chrnorm/deployment-status@v2
