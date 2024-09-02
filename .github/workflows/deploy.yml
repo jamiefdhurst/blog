@@ -30,13 +30,6 @@ jobs:
           cond: ${{ ! contains(inputs.version, '.') }}
           if_true: ${{ steps.latest.outputs.name }}
           if_false: ${{ inputs.version }}
-      - uses: robinraju/release-downloader@v1.8
-        with:
-          tag: ${{ steps.version.outputs.value }}
-          fileName: "blog-*.zip"
-          tarBall: false
-          zipBall: false
-          extract: false
       - uses: chrnorm/deployment-action@releases/v1
         name: Create deployment for ${{ steps.version.outputs.value }}
         id: deployment
@@ -44,15 +37,6 @@ jobs:
           token: ${{ secrets.PAT }}
           description: ${{ steps.version.outputs.value }}
           environment: production
-      - name: Upload release ${{ steps.version.outputs.value }} to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          source: blog-${{ steps.version.outputs.value }}.zip
-          target: /srv/
       - name: Upload release ${{ steps.version.outputs.value }} to server
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -62,6 +46,7 @@ jobs:
           port: 22
           script: |
             cd /srv
+            wget wget https://github.com/jamiefdhurst/blog/releases/download/${{ steps.version.outputs.value }}/blog-${{ steps.version.outputs.value }}.zip
             unzip blog-${{ steps.version.outputs.value }}.zip -d blog-${{ steps.version.outputs.value }}/
             rm blog
             rm blog-*.zip
