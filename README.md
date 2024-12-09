@@ -8,8 +8,7 @@ static site.
 You will require Python 3. Run the following to install required modules:
 
 ```bash
-python3 -m pip installl -r requirements.txt
-python3 setup.py develop
+python3 -m pip install -r requirements.txt
 ```
 
 You can then generate the site using:
