@@ -58,6 +58,7 @@ jobs:
           fail: true
           publish: true
           diff: false
+          diff-storage: false
           threshold: 80
       # - name: Add Coverage PR Comment
       #   uses: marocchino/sticky-pull-request-comment@v2
