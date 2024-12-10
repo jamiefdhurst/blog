@@ -1,8 +1,8 @@
 repository:
   name: blog
-  description: Simple blog in Flask that reads in and parses Markdown articles.
+  description: Simple blog static site generator for jamiehurst.co.uk reads in and parses Markdown articles.
   homepage: https://jamiehurst.co.uk
-  topics: python, markdown, flask
+  topics: python, markdown
   private: false
   has_issues: true
   has_projects: false
