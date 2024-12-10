@@ -55,7 +55,7 @@ jobs:
         uses: im-open/code-coverage-report-generator@4.9.0
         with:
           reports: coverage.xml
-          targetdir: ./tests
+          reporttypes: MarkdownSummary
           title: Pytest Code Coverage
       - name: Publish Code Coverage
         uses: im-open/process-code-coverage-summary@v2.2.3
