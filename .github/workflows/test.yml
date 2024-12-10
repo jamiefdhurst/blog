@@ -52,14 +52,12 @@ jobs:
           files: |
             tests.xml
       - name: Publish Code Coverage
-        uses: insightsengineering/coverage-action@v2
+        uses: im-open/process-code-coverage-summary@v2.2.3
         with:
-          path: coverage.xml
-          fail: true
-          publish: true
-          diff: false
-          diff-storage: false
-          threshold: 80
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          summary-file: './coverage.md'
+          check-name: 'Code Coverage'
+          line-threshold: 80
       # - name: Add Coverage PR Comment
       #   uses: marocchino/sticky-pull-request-comment@v2
       #   if: always()
