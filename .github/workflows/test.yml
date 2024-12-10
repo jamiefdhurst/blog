@@ -9,6 +9,7 @@ on:
 
 concurrency:
   group: ${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
   
 permissions:
   contents: read
