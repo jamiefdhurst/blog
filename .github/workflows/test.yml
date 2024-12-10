@@ -31,7 +31,7 @@ jobs:
           python -m pip install -r requirements.txt
       - name: Test
         run: |
-          coverage run --omit="tests/\* -m pytest --verbose --junit-xml tests.xml
+          coverage run --omit=tests/\* -m pytest --verbose --junit-xml tests.xml
           coverage xml -o coverage.xml
       - name: Upload Test Results
         uses: actions/upload-artifact@v3
