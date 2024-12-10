@@ -51,11 +51,17 @@ jobs:
           action_fail: true
           files: |
             tests.xml
+      - name: Create Code Coverage Report
+        uses: im-open/code-coverage-report-generator@4.9.0
+        with:
+          reports: coverage.xml
+          targetdir: ./tests
+          title: Pytest Code Coverage
       - name: Publish Code Coverage
         uses: im-open/process-code-coverage-summary@v2.2.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          summary-file: './coverage.md'
+          summary-file: './coverage-results/Summary.md'
           check-name: 'Code Coverage'
           line-threshold: 80
       # - name: Add Coverage PR Comment
