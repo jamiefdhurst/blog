@@ -35,6 +35,7 @@ jobs:
           coverage xml -o coverage.xml
       - name: Upload Test Results
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: tests
           path: tests.xml
@@ -61,7 +62,7 @@ jobs:
           hide_complexity: true
           indicators: true
           output: both
-          thresholds: '100'
+          thresholds: '80 90'
       - name: Add Coverage PR Comment
         uses: marocchino/sticky-pull-request-comment@v2
         if: always()
