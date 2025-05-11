@@ -34,13 +34,13 @@ jobs:
           coverage run --omit=tests/\* -m pytest --verbose --junit-xml tests.xml
           coverage xml -o coverage.xml
       - name: Upload Test Results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: tests
           path: tests.xml
       - name: Upload Coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: coverage
           path: coverage.xml
@@ -64,9 +64,3 @@ jobs:
           summary-file: './coverage-results/Summary.md'
           check-name: 'Code Coverage'
           line-threshold: 80
-      # - name: Add Coverage PR Comment
-      #   uses: marocchino/sticky-pull-request-comment@v2
-      #   if: always()
-      #   with:
-      #     recreate: true
-      #     path: code-coverage-results.md
