@@ -4,7 +4,7 @@ dill==0.3.9
 iniconfig==2.0.0
 isort==5.13.2
 Jinja2==3.1.6
-Markdown==3.7
+Markdown==3.8.1
 MarkupSafe==3.0.2
 mccabe==0.7.0
 packaging==24.2
