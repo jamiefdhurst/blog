@@ -6,4 +6,10 @@
         <loc>https://jamiehurst.co.uk/{{ article.get_name() }}</loc>
     </url>
 {% endfor %}
+    <url>
+        <loc>https://jamiehurst.co.uk/journal</loc>
+    </url>
+    <url>
+        <loc>https://jamiehurst.co.uk/now</loc>
+    </url>
 </urlset>

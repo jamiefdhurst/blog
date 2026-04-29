@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{%block title %}- Journal{% endblock %}
+
+{% block content %}
+  <article class="view">
+    <h1>Journal</h1>
+    <div class="content">
+      <p>
+        Journal is a simple, self-hosted web-based journal written in Go. You can create, edit and view entries
+        in Markdown format, with a clean web interface and a full REST API. All data is stored in a SQLite
+        database — no database server required, just a single file on disk.
+      </p>
+      <p>
+        I built it for personal use and continue to use it every day for my own journalling. It's also designed
+        to be a good learning project for developers who are getting started with Go — it deliberately has only
+        two dependencies so the full end-to-end flow can be understood through standard Go libraries.
+      </p>
+      <p>
+        The latest release is <strong>v1.0</strong>. Read the
+        <a href="/articles/2026-04-29_journal-v1">blog post about what changed in v1.0</a>, or head to the
+        <a href="https://github.com/jamiefdhurst/journal" target="_blank">GitHub repository</a> to explore the
+        source code, open issues, or contribute.
+      </p>
+
+      <h2>Features</h2>
+      <ul>
+        <li>Create, edit and view journal entries written in Markdown</li>
+        <li>Calendar view for browsing entries by month and year</li>
+        <li>Random article endpoint to surface older entries</li>
+        <li>Stats page showing entry counts, word counts and visit data</li>
+        <li>REST API with an OpenAPI 3.0 specification</li>
+        <li>Visit and request tracking stored in the database</li>
+        <li>Themeable front-end with a clean default theme</li>
+        <li>Configurable entirely through environment variables</li>
+        <li>Optional SSL/TLS support and secure session handling</li>
+      </ul>
+
+      <h2>Installation</h2>
+
+      <h3>Homebrew (macOS)</h3>
+      <pre><code>brew tap jamiefdhurst/journal
+brew install journal</code></pre>
+
+      <h3>Docker</h3>
+      <pre><code>docker run -d \
+  --name journal \
+  -p 3000:3000 \
+  -v /var/lib/journal:/go/data \
+  jamiefdhurst/journal:latest</code></pre>
+      <p>Images are also published to the GitHub Container Registry as <code>ghcr.io/jamiefdhurst/journal:latest</code>.</p>
+
+      <h3>Debian / Ubuntu (apt)</h3>
+      <pre><code>curl -fsSL https://jamiefdhurst.github.io/packages/journal.asc \
+  | sudo tee /usr/share/keyrings/journal.asc > /dev/null
+
+echo "deb [signed-by=/usr/share/keyrings/journal.asc] \
+  https://jamiefdhurst.github.io/packages stable main" \
+  | sudo tee /etc/apt/sources.list.d/journal.list
+
+sudo apt update &amp;&amp; sudo apt install journal</code></pre>
+
+      <h3>CentOS / RHEL / Fedora (yum/dnf)</h3>
+      <pre><code>sudo tee /etc/yum.repos.d/journal.repo > /dev/null &lt;&lt;'EOF'
+[journal]
+name=Journal
+baseurl=https://jamiefdhurst.github.io/packages/yum
+enabled=1
+gpgcheck=1
+gpgkey=https://jamiefdhurst.github.io/packages/journal.asc
+EOF
+
+sudo yum install journal</code></pre>
+
+      <h3>Build from source</h3>
+      <pre><code>git clone https://github.com/jamiefdhurst/journal.git
+cd journal
+go mod download
+go build -o journal ./cmd/journal
+./journal</code></pre>
+
+      <p>
+        Pre-built ZIP archives for Linux and macOS (amd64 and arm64) are attached to every
+        <a href="https://github.com/jamiefdhurst/journal/releases" target="_blank">GitHub release</a>.
+      </p>
+
+      <h2>Configuration</h2>
+      <p>Journal is configured through environment variables, or optionally a <code>.env</code> file.</p>
+      <ul>
+        <li><code>J_TITLE</code> — title of your journal</li>
+        <li><code>J_DESCRIPTION</code> — HTML description</li>
+        <li><code>J_PORT</code> — port to serve on, default <code>3000</code></li>
+        <li><code>J_DB_PATH</code> — path to the SQLite database, default <code>./data/journal.db</code></li>
+        <li><code>J_CREATE</code> — set to <code>0</code> to disable entry creation</li>
+        <li><code>J_EDIT</code> — set to <code>0</code> to disable editing</li>
+        <li><code>J_THEME</code> — theme to use from the <em>web/themes</em> folder, default <code>default</code></li>
+        <li><code>J_POSTS_PER_PAGE</code> — entries per page, default <code>20</code></li>
+        <li><code>J_EXCERPT_WORDS</code> — preview length on the index, default <code>50</code></li>
+        <li><code>J_SSL_CERT</code> / <code>J_SSL_KEY</code> — paths to certificate and key for HTTPS</li>
+        <li><code>J_SESSION_KEY</code> — 32-character AES-256 key for session encryption</li>
+      </ul>
+      <p>
+        Full configuration reference and a reverse proxy setup guide are available in the
+        <a href="https://github.com/jamiefdhurst/journal/blob/main/docs/installation.md" target="_blank">installation guide</a>.
+      </p>
+
+      <h2>API</h2>
+      <p>
+        Journal exposes a REST API documented with an OpenAPI 3.0 specification. The spec is available at
+        <code>/openapi.yml</code> on any running instance, and the
+        <a href="https://github.com/jamiefdhurst/journal/blob/main/api/README.md" target="_blank">API documentation</a>
+        covers all available endpoints including entries, stats, and the random article endpoint.
+      </p>
+
+      <h2>Source and Contributing</h2>
+      <p>
+        The full source code is available on
+        <a href="https://github.com/jamiefdhurst/journal" target="_blank">GitHub</a>.
+        Issues and pull requests are welcome — whether that's a bug report, a feature idea, or an improvement
+        to the documentation. The project follows conventional commits for versioning, and there's a
+        <a href="https://github.com/jamiefdhurst/journal/blob/main/.github/COMMIT_CONVENTION.md" target="_blank">commit convention guide</a>
+        in the repository.
+      </p>
+    </div>
+  </article>
+{% endblock %}

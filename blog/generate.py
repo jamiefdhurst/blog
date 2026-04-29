@@ -46,7 +46,7 @@ def generate(articles_dir=ARTICLES_DIR, dist_dir=DIST_DIR):
         output_file.write(rendered)
 
     # Generate static pages (inc error pages)
-    for static_page in  ['404', '500', 'now']:
+    for static_page in  ['404', '500', 'now', 'journal']:
         print(f'[INFO] Rendering and writing {static_page}...')
         rendered = render_template(static_page + '.html')
         with open(dist_dir + static_page + '.html', 'w', encoding='UTF-8') as output_file:
