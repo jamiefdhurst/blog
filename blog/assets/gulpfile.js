@@ -4,7 +4,7 @@ const gulpSass = require('gulp-sass')(require('sass'));
 
 gulp.task('sass', function () {
     return gulp.src('./scss/default.scss')
-        .pipe(gulpSass({outputStyle: 'compressed'}).on('error', gulpSass.logError))
+        .pipe(gulpSass({style: 'compressed', quietDeps: true}).on('error', gulpSass.logError))
         .pipe(gulpRename('default.min.css'))
         .pipe(gulp.dest('./../static/css'));
 });
