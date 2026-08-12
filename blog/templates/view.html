@@ -9,12 +9,12 @@
         </p>
         {% if article.get_image() or article.get_summary() %}
         <div class="summary">
-            {% if article.get_image() %}<p>{{ article.get_image()|safe }}</p>{% endif %}
+            {% if article.get_image() %}<p>{{ article.get_image()|image_attributes(false)|safe }}</p>{% endif %}
             {% if article.get_summary() %}<p>{{ article.get_summary()|safe }}</p>{% endif %}
         </div>
         {% endif %}
         <div class="content" itemprop="mainEntityOfPage">
-            {{ article.get_content_only()|safe }}
+            {{ article.get_content_only()|image_attributes|safe }}
         </div>
     </article>
 {% endblock %}

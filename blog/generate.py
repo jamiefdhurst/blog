@@ -5,11 +5,13 @@ import sys
 from jinja2 import Environment, PackageLoader, select_autoescape
 from .articles import get_all_articles, get_paginated_articles, get_pages
 from .config import ARTICLES_DIR, DIST_DIR, VERSION
+from .images import add_image_attributes
 
 env = Environment(
     loader=PackageLoader('blog'),
     autoescape=select_autoescape()
 )
+env.filters['image_attributes'] = add_image_attributes
 
 def render_template(file, **kwargs):
     template = env.get_template(file)
