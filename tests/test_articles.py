@@ -43,15 +43,18 @@ def test_article_get_contents():
 def test_article_get_content_only():
     sut = Article('tests/articles/', '2022-01-01_test-1.md')
     assert '<h1>Test 1</h1>' not in sut.get_content_only()
-    assert '<img alt="Placeholder" src="/static/placeholder.png" />' in sut.get_content_only()
+    assert '<img alt="Placeholder" src="/static/placeholder.png" />' not in sut.get_content_only()
     assert '<h2>A test article that has very little inside of it.</h2>' not in sut.get_content_only()
     assert '<p>They were just sucked into space.' in sut.get_content_only()
+    # The hero image is stripped from the body but still available separately
+    assert '<img alt="Placeholder" src="/static/placeholder.png" />' == sut.get_image()
 
 def test_article_get_content_only_no_summary():
     sut = Article('tests/articles/', '2022-01-02_test-2.md')
     assert '<h1>Test 1</h1>' not in sut.get_content_only()
-    assert '<img alt="Placeholder" src="/static/placeholder.png" />' in sut.get_content_only()
+    assert '<img alt="Placeholder" src="/static/placeholder.png" />' not in sut.get_content_only()
     assert '<p>Worf, It\'s better than music.' in sut.get_content_only()
+    assert '<img alt="Placeholder" src="/static/placeholder.png" />' == sut.get_image()
 
 def test_article_get_date():
     sut = Article('tests/articles/', '2022-01-01_test-1.md')
