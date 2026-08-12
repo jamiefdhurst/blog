@@ -13,6 +13,6 @@ pluggy==1.6.0
 pylint==3.3.2
 pytest==9.1.1
 setuptools==84.0.0
-tomlkit==0.13.2
+tomlkit==0.15.1
 watchdog==6.0.0
 when-changed==0.3.0
