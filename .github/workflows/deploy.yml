@@ -46,10 +46,10 @@ jobs:
           port: 22
           script: |
             cd /srv
-            wget wget https://github.com/jamiefdhurst/blog/releases/download/${{ steps.version.outputs.value }}/blog-${{ steps.version.outputs.value }}.zip
-            unzip blog-${{ steps.version.outputs.value }}.zip -d blog-${{ steps.version.outputs.value }}/
-            rm blog
-            rm blog-*.zip
+            wget https://github.com/jamiefdhurst/blog/releases/download/${{ steps.version.outputs.value }}/blog-${{ steps.version.outputs.value }}.zip
+            unzip -o blog-${{ steps.version.outputs.value }}.zip -d blog-${{ steps.version.outputs.value }}/
+            rm -f blog
+            rm -f blog-*.zip
             ln -s blog-${{ steps.version.outputs.value }} blog
             service nginx reload
       - name: Update deployment status (success)
