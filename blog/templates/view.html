@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
 
-{%block title %}- {{ article.get_title() }}{% endblock %}
+{% block page_title %}{{ article.get_title() }} - Jamie Hurst{% endblock %}
+{% block description %}{{ article.get_description() or 'Jamie Hurst - Software and System Engineer, Enthusiast of Terrible Cars' }}{% endblock %}
+{% block image %}{{ article.get_image_src() or '/static/apple-touch-icon.png' }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_extra %}
+    <meta property="article:published_time" content="{{ article.get_date().isoformat() }}" />
+    <meta property="article:author" content="Jamie Hurst" />
+{% endblock %}
+
 {% block content %}
     <article class="view" itemscope itemtype="https://schema.org/BlogPosting">
-        <h1 itemprop="title headline">{{ article.get_title() }}</h1>
+        <h1 itemprop="headline">{{ article.get_title() }}</h1>
         <p class="date">
-            <span itemprop="dateCreated pubdate datePublished" content="{{ article.get_date().isoformat() }}">Posted on {{ article.get_date().strftime('%A %B %-d, %Y') }}</span>
+            <span itemprop="datePublished" content="{{ article.get_date().isoformat() }}">Posted on {{ article.get_date().strftime('%A %B %-d, %Y') }}</span>
         </p>
         {% if article.get_image() or article.get_summary() %}
         <div class="summary">

@@ -53,6 +53,24 @@ class Article:
             return None
         return image.group(1)
 
+    def get_description(self, length=160):
+        '''Plain text summary, trimmed on a word boundary for meta tags'''
+        summary = self.get_summary()
+        if not summary:
+            return None
+        text = re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', summary)).strip()
+        if len(text) <= length:
+            return text
+        return text[:length].rsplit(' ', 1)[0].rstrip('.,;:') + '...'
+
+    def get_image_src(self):
+        '''The src of the hero image, for social sharing tags'''
+        image = self.get_image()
+        if not image:
+            return None
+        src = re.search(r'src="([^"]+)"', image)
+        return src.group(1) if src else None
+
     def get_name(self):
         return self.filename[:-3]
 

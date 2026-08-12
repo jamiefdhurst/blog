@@ -101,3 +101,26 @@ def test_article_get_title_failure():
     except InvalidTitleForArticleException as e:
         err = e
     assert err is not None
+
+def test_article_get_description():
+    sut = Article('tests/articles/', '2022-01-01_test-1.md')
+    assert 'A test article that has very little inside of it.' == sut.get_description()
+
+def test_article_get_description_strips_markup_and_truncates():
+    sut = Article('tests/articles/', '2022-01-01_test-1.md')
+    result = sut.get_description(20)
+    assert len(result) <= 23
+    assert result.endswith('...')
+    assert '<' not in result
+
+def test_article_get_description_no_summary():
+    sut = Article('tests/articles/', '2022-01-02_test-2.md')
+    assert sut.get_description() is None
+
+def test_article_get_image_src():
+    sut = Article('tests/articles/', '2022-01-01_test-1.md')
+    assert '/static/placeholder.png' == sut.get_image_src()
+
+def test_article_get_image_src_no_image():
+    sut = Article('tests/failed-articles/', '2022-01-01_no-image.md')
+    assert sut.get_image_src() is None

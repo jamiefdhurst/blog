@@ -4,7 +4,7 @@ import shutil
 import sys
 from jinja2 import Environment, PackageLoader, select_autoescape
 from .articles import get_all_articles, get_paginated_articles, get_pages
-from .config import ARTICLES_DIR, DIST_DIR, VERSION
+from .config import ARTICLES_DIR, DIST_DIR, SITE_URL, VERSION
 from .images import add_image_attributes
 
 env = Environment(
@@ -15,7 +15,8 @@ env.filters['image_attributes'] = add_image_attributes
 
 def render_template(file, **kwargs):
     template = env.get_template(file)
-    return template.render(**kwargs, version=VERSION, year=datetime.date.today().year)
+    return template.render(**kwargs, version=VERSION, site_url=SITE_URL,
+                           year=datetime.date.today().year)
 
 def generate(articles_dir=ARTICLES_DIR, dist_dir=DIST_DIR):
 
@@ -38,20 +39,22 @@ def generate(articles_dir=ARTICLES_DIR, dist_dir=DIST_DIR):
     print(f'[INFO] Loaded {len(items)} articles...')
     for item in items:
         print(f'[INFO] Rendering and writing {item.get_name()}...')
-        rendered = render_template('view.html', article=item)
+        rendered = render_template('view.html', article=item,
+                                   canonical=item.get_name())
         with open(dist_dir + item.get_name() + '.html', 'w', encoding='UTF-8') as output_file:
             output_file.write(rendered)
 
     # Generate sitemap
     print('[INFO] Rendering and writing sitemap...')
-    rendered = render_template('sitemap.xml', articles=items)
+    rendered = render_template('sitemap.xml', articles=items, canonical='')
     with open(dist_dir + 'sitemap.xml', 'w', encoding='UTF-8') as output_file:
         output_file.write(rendered)
 
     # Generate static pages (inc error pages)
     for static_page in  ['404', '500', 'now', 'journal']:
         print(f'[INFO] Rendering and writing {static_page}...')
-        rendered = render_template(static_page + '.html')
+        rendered = render_template(static_page + '.html',
+                                   canonical=static_page)
         with open(dist_dir + static_page + '.html', 'w', encoding='UTF-8') as output_file:
             output_file.write(rendered)
 
@@ -64,6 +67,7 @@ def generate(articles_dir=ARTICLES_DIR, dist_dir=DIST_DIR):
         rendered = render_template(
             'index.html',
             articles=paged_items,
+            canonical='' if p == 1 else f'?page={p}',
             current_page=p,
             pages=[None] * pages
         )
