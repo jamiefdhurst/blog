@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="UTF-8" />
-    <title>Jamie Hurst's Blog {% block title %}{% endblock %}</title>
+    <title>{% block page_title %}Jamie Hurst - Software and System Engineer, Enthusiast of Terrible Cars{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <meta name="description" content="Jamie Hurst - Software and System Engineer, Enthusiast of Terrible Cars" />
+    <meta name="description" content="{% block description %}Jamie Hurst - Software and System Engineer, Enthusiast of Terrible Cars{% endblock %}" />
+    <meta name="author" content="Jamie Hurst" />
+    <link rel="canonical" href="{{ site_url }}/{{ canonical }}" />
+
+    <meta property="og:type" content="{% block og_type %}website{% endblock %}" />
+    <meta property="og:site_name" content="Jamie Hurst's Blog" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content="{{ self.page_title() | trim }}" />
+    <meta property="og:description" content="{{ self.description() | trim }}" />
+    <meta property="og:url" content="{{ site_url }}/{{ canonical }}" />
+    <meta property="og:image" content="{{ site_url }}{% block image %}/static/apple-touch-icon.png{% endblock %}" />
+    {% block og_extra %}{% endblock %}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ self.page_title() | trim }}" />
+    <meta name="twitter:description" content="{{ self.description() | trim }}" />
+    <meta name="twitter:image" content="{{ site_url }}{{ self.image() | trim }}" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;0,900;1,400&display=swap" />
