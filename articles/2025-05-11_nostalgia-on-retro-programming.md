@@ -29,7 +29,7 @@ I mounted a couple of folders within XP using VirtualBox's guest additions onto 
 
 As soon as I heard the familiar startup jingle, I was in and staring at the familiar wallpaper, instantly taking me back to all those years ago...
 
-![Windows XP initial desktop](/static/xp-desktop.png)
+![Windows XP initial desktop](/static/xp-desktop.jpg)
 
 Now that the operating system was installed, I needed to set up my full development environment, 2005-style.
 

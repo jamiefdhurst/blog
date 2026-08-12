@@ -1,4 +1,7 @@
-@import "https://fonts.googleapis.com/css?family=Roboto%3A300%2C400%2C400i%2C700%2C900%7CRoboto%3A100%2C100italic%2C300%2C300italic%2Cregular%2Citalic%2C500%2C500italic%2C700%2C700italic%2C900%2C900italic&subset=cyrillic";
+// Roboto is loaded from a <link> in base.html rather than @import here.
+// An @import inside the stylesheet cannot start downloading until this file
+// has itself been fetched and parsed, which puts the fonts a full round trip
+// further down the critical path.
 @import "../node_modules/normalize.css/normalize";
 @import "../node_modules/bourbon/core/bourbon";
 @import "variables";
