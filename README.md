@@ -44,6 +44,19 @@ Testing uses Pytest - run it as follows (installing the required modules too):
 pytest --verbose
 ```
 
+## Commits
+
+Commit messages follow a convention that drives the automatic versioning and 
+changelog - see [.github/COMMIT_CONVENTION.md](.github/COMMIT_CONVENTION.md). 
+Enable the local commit message hook once per clone with:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+The same hook runs against every commit in a pull request, so the convention is 
+enforced whether or not the hook is installed locally.
+
 ## Build and Release
 
 The GitHub Actions pipeline handles testing, building and releasing the static 
