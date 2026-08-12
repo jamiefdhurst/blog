@@ -16,26 +16,17 @@ updates:
       prefix-development: "chore"
       include: "scope"
     groups:
-      # Group all testing related updates
-      testing:
+      # Group the tooling used to test and lint the generator
+      tooling:
         patterns:
-          - "pytest*"
+          - "pytest"
           - "coverage"
-          - "iniconfig"
-          - "pluggy"
-      # Group all linting related updates
-      linting:
-        patterns:
           - "pylint"
-          - "astroid"
-          - "isort"
-          - "mccabe"
       # Group the templating and markdown rendering stack
       rendering:
         patterns:
           - "Jinja2"
           - "Markdown"
-          - "MarkupSafe"
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: "github-actions"
