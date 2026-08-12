@@ -56,6 +56,8 @@ branches:
       required_pull_request_reviews: null
       required_status_checks:
         strict: true
-        contexts: ['Test']
+        # 'status check - Code Coverage' is the name the coverage action
+        # publishes under - it prefixes whatever check-name it is given.
+        contexts: ['Test', 'status check - Code Coverage']
       enforce_admins: false
       restrictions: null
