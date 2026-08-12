@@ -22,11 +22,16 @@ class Article:
         return self.contents
 
     def get_content_only(self):
+        '''Body without the title, summary or hero image - those are rendered
+        separately so that the article page matches the index layout'''
         title = self.find_title.search(self.contents)
         summary = self.find_summary.search(self.contents)
+        image = self.find_image.search(self.contents)
         contents = self.contents.replace(title.group(0), '')
         if summary:
-            return contents.replace(summary.group(0), '')
+            contents = contents.replace(summary.group(0), '')
+        if image:
+            contents = contents.replace(image.group(0), '', 1)
         return contents
 
     def get_date(self):
