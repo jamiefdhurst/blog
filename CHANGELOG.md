@@ -5,6 +5,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.2] - 2026-08-12
+
+### Fixed
+
+- fix: restore article intros, fix mobile viewport, unstick footer year (2e9743c)
+
+### Other
+
+- chore: update actions to align with other projects (b594b08)
+- chore: update dependabot settings (c903716)
+- chore: mass update (cf9620a)
+- chore: bump the linting group with 3 updates (3cba163)
+- chore: pin astroid to 4.0.4 for pylint compatibility (4295462)
+- chore: bump the rendering group with 2 updates (39e6f79)
+- chore: bump the testing group with 4 updates (226a6f5)
+- chore: bump appleboy/ssh-action from 1.0.3 to 1.2.5 (01ba21f)
+- chore: bump im-open/process-code-coverage-summary (311cac4)
+- chore: bump im-open/code-coverage-report-generator (16eca37)
+- chore: bump actions/setup-python from 4 to 7 (56f19ea)
+- chore: bump actions/upload-artifact from 4 to 7 (0faaae8)
+- chore: bump setuptools from 78.1.1 to 84.0.0 (bd208fd)
+- chore: bump packaging from 24.2 to 26.3 (0ddc93f)
+- chore: bump dill from 0.3.9 to 0.4.1 (f99bc6c)
+- chore: bump tomlkit from 0.13.2 to 0.15.1 (cded5a4)
+- chore: bump platformdirs from 4.3.6 to 4.11.1 (93876f1)
+- chore: pin only direct dependencies (f0d3685)
+- chore: bump actions/checkout from 4 to 7 (225f739)
+- ci: enforce the code coverage thresholds (f845674)
+- ci: lower branch threshold to 70 for headroom (9bed9a4)
+- ci: make the deploy script idempotent and drop the wget typo (7f155d6)
+
 ## [1.5.1] - 2026-08-07
 
 ### Added
