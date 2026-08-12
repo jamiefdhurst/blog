@@ -21,7 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
+      - name: Calculate Version Impact
+        id: version
+        run: |
+          chmod +x .github/scripts/calculate-version.sh
+          .github/scripts/calculate-version.sh
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
@@ -64,3 +69,18 @@ jobs:
           summary-file: './coverage-results/Summary.md'
           check-name: 'Code Coverage'
           line-threshold: 80
+      - name: Comment PR with Version Impact
+        uses: thollander/actions-comment-pull-request@v3
+        with:
+          message: |
+            ## 📦 Version Impact
+
+            **Current version:** `${{ steps.version.outputs.previous_version }}`
+            **Next version:** `v${{ steps.version.outputs.version }}`
+            **Bump type:** `${{ steps.version.outputs.bump_type }}`
+            **Will release:** ${{ steps.version.outputs.should_release == 'true' && '✅ Yes' || '⚪️ No (non-releasable changes only)' }}
+
+            ---
+
+            <sub>This PR will ${{ steps.version.outputs.should_release == 'true' && format('trigger a **{0}** version bump from `{1}` to `v{2}`', steps.version.outputs.bump_type, steps.version.outputs.previous_version, steps.version.outputs.version) || 'not trigger a release (only docs/test/chore/build/ci/style/revert changes)' }}</sub>
+          comment-tag: version_impact

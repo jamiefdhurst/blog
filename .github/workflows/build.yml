@@ -21,70 +21,72 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
           token: ${{ secrets.PAT }}
-      - name: Get Latest Version
-        id: latest
-        uses: gregziegan/fetch-latest-release@v2.0.0
       - name: Calculate Next Version
-        id: calculate
-        uses: paulhatch/semantic-version@v5.3.0
-        with:
-          version_format: "${major}.${minor}.${patch}"
-      - name: Determine Next Version
-        if: ${{ contains(steps.latest.outputs.name, '.') }}
         id: version
-        uses: haya14busa/action-cond@v1
-        with:
-          cond: ${{ contains(steps.latest.outputs.name, '.') }}
-          if_true: ${{ steps.calculate.outputs.version }}
-          if_false: '0.0.1'
-      - name: Remove Leading "v" from Latest Version
-        if: ${{ contains(steps.latest.outputs.name, '.') }}
-        id: latest_clean
         run: |
-          export version=$(echo ${{ steps.latest.outputs.name }} | sed 's/^v//')
-          echo ::set-output name=name::$version
-      - name: Update Version in blog/config.py
-        if: ${{ contains(steps.latest.outputs.name, '.') }}
-        uses: datamonsters/replace-action@v2
-        with:
-          files: 'blog/config.py'
-          replacements: "${{ steps.latest_clean.outputs.name }}=${{ steps.version.outputs.value }}"
-      - name: Update Version in setup.cfg
-        if: ${{ contains(steps.latest.outputs.name, '.') }}
-        uses: datamonsters/replace-action@v2
-        with:
-          files: 'setup.cfg'
-          replacements: "${{ steps.latest_clean.outputs.name }}=${{ steps.version.outputs.value }}"
+          chmod +x .github/scripts/calculate-version.sh
+          .github/scripts/calculate-version.sh
+      - name: Update Version in blog/config.py and setup.cfg
+        if: steps.version.outputs.should_release == 'true'
+        run: |
+          echo "Previous version: ${{ steps.version.outputs.previous_version }}"
+          echo "New version: v${{ steps.version.outputs.version }}"
+          sed -i "s/^VERSION = '.*'/VERSION = 'v${{ steps.version.outputs.version }}'/" blog/config.py
+          sed -i "s/^version = .*/version = v${{ steps.version.outputs.version }}/" setup.cfg
+          grep -H VERSION blog/config.py
+          grep -H version setup.cfg
       - name: File Save Delay
+        if: steps.version.outputs.should_release == 'true'
         uses: jakejarvis/wait-action@master
         with:
           time: '2s'
-      - name: Commit Version Changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+      - name: Generate Changelog
+        if: steps.version.outputs.should_release == 'true'
+        uses: orhun/git-cliff-action@v4
         with:
-          commit_message: "[skip ci] Update version to v${{ steps.version.outputs.value }}"
+          config: cliff.toml
+          args: --verbose --tag v${{ steps.version.outputs.version }}
+        env:
+          OUTPUT: CHANGELOG.md
+      - name: Commit Version and Changelog Changes
+        if: steps.version.outputs.should_release == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "[skip ci] Update version to v${{ steps.version.outputs.version }}"
+          file_pattern: "blog/config.py setup.cfg CHANGELOG.md"
       - name: Setup Python
-        uses: actions/setup-python@v4
+        if: steps.version.outputs.should_release == 'true'
+        uses: actions/setup-python@v5
         with:
           python-version: '3.13'
       - name: Install Dependencies
+        if: steps.version.outputs.should_release == 'true'
         run: |
           python -m pip install -r requirements.txt
       - name: Generate Distribution
+        if: steps.version.outputs.should_release == 'true'
         run: |
           python -m blog.generate
           cd dist
-          zip -r ../blog-v${{ steps.version.outputs.value }}.zip *
+          zip -r ../blog-v${{ steps.version.outputs.version }}.zip *
+      - name: Generate Release Notes
+        if: steps.version.outputs.should_release == 'true'
+        id: release_notes
+        run: |
+          chmod +x .github/scripts/release-notes.sh
+          .github/scripts/release-notes.sh ${{ steps.version.outputs.version }}
       - name: Create Release
-        uses: ncipollo/release-action@v1.12.0
+        if: steps.version.outputs.should_release == 'true'
+        uses: ncipollo/release-action@v1.21.0
         with:
           allowUpdates: true
-          artifacts: blog-v${{ steps.version.outputs.value }}.zip
+          artifacts: blog-v${{ steps.version.outputs.version }}.zip
+          bodyFile: 'release_notes.md'
           draft: false
           makeLatest: true
-          tag: v${{ steps.version.outputs.value }}
-          name: v${{ steps.version.outputs.value }}
+          tag: v${{ steps.version.outputs.version }}
+          name: v${{ steps.version.outputs.version }}
