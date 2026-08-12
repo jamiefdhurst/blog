@@ -30,9 +30,12 @@ jobs:
           cond: ${{ ! contains(inputs.version, '.') }}
           if_true: ${{ steps.latest.outputs.name }}
           if_false: ${{ inputs.version }}
-      - uses: chrnorm/deployment-action@releases/v1
+      # Recording the deployment in GitHub is bookkeeping - it must never
+      # stop the site from actually shipping, so failures here are tolerated.
+      - uses: chrnorm/deployment-action@v2.0.8
         name: Create deployment for ${{ steps.version.outputs.value }}
         id: deployment
+        continue-on-error: true
         with:
           token: ${{ secrets.PAT }}
           description: ${{ steps.version.outputs.value }}
@@ -53,7 +56,8 @@ jobs:
             ln -s blog-${{ steps.version.outputs.value }} blog
             service nginx reload
       - name: Update deployment status (success)
-        if: success()
+        if: success() && steps.deployment.outputs.deployment_id
+        continue-on-error: true
         uses: chrnorm/deployment-status@v2
         with:
           token: ${{ secrets.PAT }}
@@ -61,7 +65,8 @@ jobs:
           state: success
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
       - name: Update deployment status (failure)
-        if: failure()
+        if: failure() && steps.deployment.outputs.deployment_id
+        continue-on-error: true
         uses: chrnorm/deployment-status@v2
         with:
           token: ${{ secrets.PAT }}
