@@ -99,13 +99,13 @@ jobs:
           coverage run --omit=tests/\* -m pytest --verbose --junit-xml tests.xml
           coverage xml -o coverage.xml
       - name: Upload Test Results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: tests
           path: tests.xml
       - name: Upload Coverage
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage
           path: coverage.xml
