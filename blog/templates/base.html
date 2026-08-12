@@ -4,7 +4,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta charset="UTF-8" />
     <title>Jamie Hurst's Blog {% block title %}{% endblock %}</title>
-    <meta name="viewport" content="device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <meta name="description" content="Jamie Hurst - Software and System Engineer, Enthusiast of Terrible Cars" />
     <link rel="stylesheet" type="text/css" href="/static/css/default.min.css?v={{ version }}" />
@@ -30,7 +30,7 @@
             {% block content %}{% endblock %}
         </div>
     </main>
-    <footer role="contentinfo">&copy; Copyright Jamie Hurst 2021-2024<br />System {{ version }}</footer>
+    <footer role="contentinfo">&copy; Copyright Jamie Hurst 2021-{{ year }}<br />System {{ version }}</footer>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-217639974-1"></script>
     <script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-217639974-1');</script>
 </body>

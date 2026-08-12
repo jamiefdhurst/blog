@@ -1,3 +1,4 @@
+import datetime
 import os
 import shutil
 import sys
@@ -12,7 +13,7 @@ env = Environment(
 
 def render_template(file, **kwargs):
     template = env.get_template(file)
-    return template.render(**kwargs, version=VERSION)
+    return template.render(**kwargs, version=VERSION, year=datetime.date.today().year)
 
 def generate(articles_dir=ARTICLES_DIR, dist_dir=DIST_DIR):
 
