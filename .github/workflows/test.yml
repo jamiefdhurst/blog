@@ -96,7 +96,7 @@ jobs:
           python -m pip install -r requirements.txt
       - name: Test
         run: |
-          coverage run --omit=tests/\* -m pytest --verbose --junit-xml tests.xml
+          coverage run --branch --omit=tests/\* -m pytest --verbose --junit-xml tests.xml
           coverage xml -o coverage.xml
       - name: Upload Test Results
         uses: actions/upload-artifact@v7
@@ -128,7 +128,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           summary-file: './coverage-results/Summary.md'
           check-name: 'Code Coverage'
+          # Both thresholds must be non-zero. The action forces the status
+          # check to a 'neutral' conclusion if either is left at 0, which
+          # stops the line threshold from ever blocking a merge.
           line-threshold: 80
+          branch-threshold: 75
       - name: Comment PR with Version Impact
         uses: thollander/actions-comment-pull-request@v3
         with:
