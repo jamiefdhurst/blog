@@ -150,6 +150,11 @@ article {
 
         img {
             display: block;
+            // Images carry width and height attributes so the browser can
+            // reserve space before they load. Without height: auto, max-width
+            // shrinks the width while the height attribute stays fixed, which
+            // stretches every image out of proportion.
+            height: auto;
             margin: 0 auto;
             max-width: 100%;
         }
