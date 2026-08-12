@@ -48,10 +48,6 @@ def test_article_get_content_only():
     assert '<p>They were just sucked into space.' in sut.get_content_only()
     # The hero image is stripped from the body but still available separately
     assert '<img alt="Placeholder" src="/static/placeholder.png" />' == sut.get_image()
-    # An opening paragraph repeating the summary is dropped, so the article
-    # page does not show the same text twice
-    assert '<p>A test article that has very little inside of it.</p>' \
-        not in sut.get_content_only()
 
 def test_article_get_content_only_no_summary():
     sut = Article('tests/articles/', '2022-01-02_test-2.md')

@@ -4,8 +4,6 @@
 
 ## Or the tale of two Land Rover Discoverys... The final part of my car history, including what I'm driving around in today (correct as of August 2022).
 
-Or the tale of two Land Rover Discoverys... The final part of my car history, including what I'm driving around in today (correct as of August 2022).
-
 I'd recommend reading [part 1](/2022-08-07_car-history) and [part 2](/2022-08-15_car-history-part-2) first if you haven't already.
 
 ### 10. 2000 Toyota Avensis 1.8 CDX (W281 LMS)

@@ -30,10 +30,6 @@ class Article:
         contents = self.contents.replace(title.group(0), '')
         if summary:
             contents = contents.replace(summary.group(0), '')
-            # Some articles repeat the summary verbatim as their opening
-            # paragraph. That read fine when the summary was not shown on the
-            # article page, but now renders the same text twice.
-            contents = contents.replace(f'<p>{summary.group(1)}</p>', '', 1)
         if image:
             contents = contents.replace(image.group(0), '', 1)
         return contents
