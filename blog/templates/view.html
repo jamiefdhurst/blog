@@ -7,6 +7,11 @@
         <p class="date">
             <span itemprop="dateCreated pubdate datePublished" content="{{ article.get_date().isoformat() }}">Posted on {{ article.get_date().strftime('%A %B %-d, %Y') }}</span>
         </p>
+        {% if article.get_summary() %}
+        <div class="summary">
+            <p>{{ article.get_summary()|safe }}</p>
+        </div>
+        {% endif %}
         <div class="content" itemprop="mainEntityOfPage">
             {{ article.get_content_only()|safe }}
         </div>
