@@ -45,10 +45,22 @@ def generate(articles_dir=ARTICLES_DIR, dist_dir=DIST_DIR):
             output_file.write(rendered)
 
     # Generate sitemap
+    pages = get_pages(articles_dir)
     print('[INFO] Rendering and writing sitemap...')
-    rendered = render_template('sitemap.xml', articles=items, canonical='')
+    rendered = render_template('sitemap.xml', articles=items, pages=pages, canonical='')
     with open(dist_dir + 'sitemap.xml', 'w', encoding='UTF-8') as output_file:
         output_file.write(rendered)
+
+    # Generate RSS feed
+    print('[INFO] Rendering and writing feed...')
+    rendered = render_template('feed.xml', articles=items, canonical='')
+    with open(dist_dir + 'feed.xml', 'w', encoding='UTF-8') as output_file:
+        output_file.write(rendered)
+
+    # Generate robots.txt, pointing crawlers at the sitemap
+    print('[INFO] Writing robots.txt...')
+    with open(dist_dir + 'robots.txt', 'w', encoding='UTF-8') as output_file:
+        output_file.write(f'User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n')
 
     # Generate static pages (inc error pages)
     for static_page in  ['404', '500', 'now', 'journal']:
@@ -59,7 +71,6 @@ def generate(articles_dir=ARTICLES_DIR, dist_dir=DIST_DIR):
             output_file.write(rendered)
 
     # Generate home page and paginated elements
-    pages = get_pages(articles_dir)
     print(f'[INFO] Found {pages} pages of articles...')
     for p in range(1, pages + 1):
         print(f'[INFO] Rendering and writing index page {p}...')

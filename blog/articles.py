@@ -1,4 +1,6 @@
 import datetime
+from datetime import timezone
+from email.utils import format_datetime
 import math
 from os import listdir
 from os.path import isfile, join
@@ -42,6 +44,10 @@ class Article:
             raise InvalidDateForArticleException(
                 f'Could not parse date for article {self.filename}')
         return datetime.datetime.strptime(date.group(1), '%Y-%m-%d')
+
+    def get_rfc_date(self):
+        '''Publication date in the RFC 822 form RSS requires'''
+        return format_datetime(self.get_date().replace(tzinfo=timezone.utc))
 
     def get_image(self):
         image = self.find_image.search(self.contents)
