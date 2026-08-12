@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - fix: stop images stretching out of proportion (b5a12d9)
+- fix: do not render the article intro twice (27c620e)
 
 ## [1.5.4] - 2026-08-12
 
