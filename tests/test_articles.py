@@ -120,3 +120,7 @@ def test_article_get_image_src():
 def test_article_get_image_src_no_image():
     sut = Article('tests/failed-articles/', '2022-01-01_no-image.md')
     assert sut.get_image_src() is None
+
+def test_article_get_rfc_date():
+    sut = Article('tests/articles/', '2022-01-01_test-1.md')
+    assert 'Sat, 01 Jan 2022 00:00:00 +0000' == sut.get_rfc_date()

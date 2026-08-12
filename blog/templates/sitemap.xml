@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
+    <url>
+        <loc>{{ site_url }}/</loc>
+        {% if articles %}<lastmod>{{ articles[0].get_date().strftime('%Y-%m-%d') }}</lastmod>{% endif %}
+    </url>
 {% for article in articles %}
     <url>
-        <loc>https://jamiehurst.co.uk/{{ article.get_name() }}</loc>
+        <loc>{{ site_url }}/{{ article.get_name() }}</loc>
+        <lastmod>{{ article.get_date().strftime('%Y-%m-%d') }}</lastmod>
+    </url>
+{% endfor %}
+{% for page in range(2, pages + 1) %}
+    <url>
+        <loc>{{ site_url }}/?page={{ page }}</loc>
     </url>
 {% endfor %}
     <url>
-        <loc>https://jamiehurst.co.uk/journal</loc>
+        <loc>{{ site_url }}/journal</loc>
     </url>
     <url>
-        <loc>https://jamiehurst.co.uk/now</loc>
+        <loc>{{ site_url }}/now</loc>
     </url>
 </urlset>
