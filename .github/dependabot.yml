@@ -1,0 +1,53 @@
+version: 2
+updates:
+  # Enable version updates for pip
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+    labels:
+      - "⬆️ dependencies"
+    assignees:
+      - "jamiefdhurst"
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+    groups:
+      # Group all testing related updates
+      testing:
+        patterns:
+          - "pytest*"
+          - "coverage"
+          - "iniconfig"
+          - "pluggy"
+      # Group all linting related updates
+      linting:
+        patterns:
+          - "pylint"
+          - "astroid"
+          - "isort"
+          - "mccabe"
+      # Group the templating and markdown rendering stack
+      rendering:
+        patterns:
+          - "Jinja2"
+          - "Markdown"
+          - "MarkupSafe"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    labels:
+      - "⬆️ dependencies"
+    assignees:
+      - "jamiefdhurst"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
