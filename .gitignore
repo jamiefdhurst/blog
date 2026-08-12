@@ -13,3 +13,5 @@ build/
 *.egg-info/
 node_modules/
 tests/dist/
+release_notes.md
+blog-v*.zip
