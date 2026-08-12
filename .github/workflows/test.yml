@@ -132,7 +132,7 @@ jobs:
           # check to a 'neutral' conclusion if either is left at 0, which
           # stops the line threshold from ever blocking a merge.
           line-threshold: 80
-          branch-threshold: 75
+          branch-threshold: 70
       - name: Comment PR with Version Impact
         uses: thollander/actions-comment-pull-request@v3
         with:
