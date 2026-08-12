@@ -60,7 +60,7 @@ jobs:
           file_pattern: "blog/config.py setup.cfg CHANGELOG.md"
       - name: Setup Python
         if: steps.version.outputs.should_release == 'true'
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.13'
       - name: Install Dependencies
