@@ -4,8 +4,6 @@
 
 ## Since I started driving in 2007 I seem to have run through quite a few cars, and more than anything I wanted to get a little bit written on them in one place. I've had 14 cars over the years, 2 of which I still have. I tend to change them fairly often, but some I keep longer than others if I form a bit more of an affinity with them. Anyway, I thought a run through what I've had might be interesting for someone at the very least.
 
-Since I started driving in 2007 I seem to have run through quite a few cars, and more than anything I wanted to get a little bit written on them in one place. I've had 14 cars over the years, 2 of which I still have. I tend to change them fairly often, but some I keep longer than others if I form a bit more of an affinity with them. Anyway, I thought a run through what I've had might be interesting for someone at the very least.
-
 I realised most of the way through that this was getting a little long, so I've split the post into 3 - that way it's a little easier to digest.
 
 ### 1. 1994 Nissan Micra 1.3 LX (M743 GFT)

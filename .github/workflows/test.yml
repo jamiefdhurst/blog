@@ -94,6 +94,9 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install -r requirements.txt
+      - name: Validate Articles
+        run: |
+          python .github/scripts/validate-articles.py
       - name: Validate Images
         run: |
           python .github/scripts/validate-images.py

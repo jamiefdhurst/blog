@@ -4,8 +4,6 @@
 
 ## I host this website and my Jenkins setup on AWS, and have detailed in the past how I [automate the setup of this](/2022-01-15_terraform-and-ansible). However, running an EC2 24/7 to handle occasional CI builds for personal projects didn't seem like the best idea, and I wanted to see if I could save money by thinking the process through a bit. This explains how I used AWS lambdas to automate the started of an EC2 through the AWS CLI, and how to set this up within GitHub and Jenkins to drop your single EC2 instance bill by around 90-95%.
 
-I host this website and my Jenkins setup on AWS, and have detailed in the past how I [automate the setup of this](/2022-01-15_terraform-and-ansible). However, running an EC2 24/7 to handle occasional CI builds for personal projects didn't seem like the best idea, and I wanted to see if I could save money by thinking the process through a bit. This explains how I used AWS lambdas to automate the started of an EC2 through the AWS CLI, and how to set this up within GitHub and Jenkins to drop your single EC2 instance bill by around 90-95%.
-
 ### The Plan
 
 To make sure this was going to cover everything I used the Jenkins instance for, along with saving some money, it had to have some relatively clear requirements:

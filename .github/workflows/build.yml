@@ -67,6 +67,10 @@ jobs:
         if: steps.version.outputs.should_release == 'true'
         run: |
           python -m pip install -r requirements.txt
+      - name: Validate Articles
+        if: steps.version.outputs.should_release == 'true'
+        run: |
+          python .github/scripts/validate-articles.py
       - name: Generate Distribution
         if: steps.version.outputs.should_release == 'true'
         run: |

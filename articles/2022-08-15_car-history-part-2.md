@@ -4,8 +4,6 @@
 
 ## Continuing the last post, part 2 details some newer cars when I was having a little more of a "sensible" period, but that didn't last long...
 
-Continuing the last post, part 2 details some newer cars when I was having a little more of a "sensible" period, but that didn't last long...
-
 If you missed [part 1](/2022-08-07_car-history), I suggest reading that first.
 
 ### 6. 2011 Skoda Fabia VRS (BG61 ODL)

@@ -4,8 +4,6 @@
 
 ## Choosing the next version for your application or side-project can be a tricky process - when you do increase your major version, and what if your patch number is getting a little high? v1.0.0 looks a lot better than v0.1.567 but what's the best approach? I wanted a way of calculating the version automatically using commit messages and built some generic Groovy scripts that can be used in Jenkins builds to increment a version automatically when I merge a PR or push straight to main. This shows the code samples I've put together and how I've been using this privately up until now.
 
-Choosing the next version for your application or side-project can be a tricky process - when you do increase your major version, and what if your patch number is getting a little high? v1.0.0 looks a lot better than v0.1.567 but what's the best approach? I wanted a way of calculating the version automatically using commit messages and built some generic Groovy scripts that can be used in Jenkins builds to increment a version automatically when I merge a PR or push straight to main.
-
 Part of this was to have a path of CI and CD for my side projects, blog and infrastructure; but part of it was to take the hard work out of semantic versioning and determining the correct approach to recording this, providing a consistent approach for everything I put together.
 
 ### Semantic Versioning
